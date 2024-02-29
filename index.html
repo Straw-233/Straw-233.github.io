@@ -453,19 +453,18 @@
                 <span class="abstract-title-text">llvm IR常用指令一</span>
             </a>
             <div class="abstract-content">
-                llvm IR常用指令一终结指令ret指令ret  ;返回特定类型返回值的return指令
+                llvm IR常用指令一终结指令ret指令ret &lt; type&gt;  &lt; value&gt;;返回特定类型返回值的return指令
 ret void;无返回值的return指令
 1234Test:ret i32 5;返回整数5ret void;返回无符号ret &#123; i32 , i8 &#125; &#123; i32 4 , i8 2 &#125;;返回结构体
 
-br指令br i1 ,label ,label ;有条件跳转
-br label ;无条件分支
-1234567Test:%cond = icmp eq i32 %al,%bbr il %cond,label %IfEqual,label %IfUnequalI...
+br指令br i1 &lt; cond&gt;,label &lt; iftrue&gt;,label &lt; iffalse&gt;;有条件跳转
+br label &lt; dest&gt;;无条件...
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/02/28">
+                <div class="abstract-date" title="Last updated: 2024/02/29">
                     <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/02/28</span>
                 </div>
                 <!-- tags -->
