@@ -22,7 +22,7 @@
     <meta name="description" content="Straw_blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Straw">
-<meta property="og:url" content="https://straw-233.github.io/archives/index.html">
+<meta property="og:url" content="https://straw-233.github.io/page/2/index.html">
 <meta property="og:site_name" content="Straw">
 <meta property="og:description" content="Straw_blog">
 <meta property="og:locale" content="zh_CN">
@@ -222,8 +222,10 @@
         }
     </script>
     
+        <body class="home-body">
+    
         <!-- header -->
-        <header class="header header-mobile">
+        <header class="header header-mobile index-header">
     <!-- top read progress line -->
     <div class="header-element">
         <div class="read-progress"></div>
@@ -254,7 +256,7 @@
 </header>
 
         <!-- fixed footer -->
-        <footer class="footer-fixed">
+        <footer class="footer-fixed index-footer-fixed">
     <!-- back to top button -->
     <div class="footer-fixed-element">
         
@@ -277,21 +279,34 @@
 
 
 
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
+        
+    <!-- 文章页  -->
+    
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/index-bg.png)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+                Straw's B1og.
+            <!-- 文章页  -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
+            
+                
+                    We1come t0 Straw's wor1d 喵~
+                
+            <!-- 文章页  -->
             
         </p>
         <!-- 文章页 meta -->
@@ -433,316 +448,23 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2024/03/19/OLLVM-%E9%9A%8F%E6%9C%BA%E6%8E%A7%E5%88%B6%E6%B5%81/">
+            <a class="abstract-title" href="/2023/10/29/hello-world/">
                 
-                <span class="abstract-title-text">OLLVM-随机控制流</span>
+                <span class="abstract-title-text">Hello World</span>
             </a>
             <div class="abstract-content">
-                OLLVM-随机控制流感觉跟虚假控制流差不多，就是badyBB和cloneBB的定向跳转转到了随机跳转
-(建议结合代码食用)
+                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
 
-第一步：基本块分割与虚假控制流相同
-第二步：基本块克隆
-第三步：构造随机跳转，插入生成随机数指令，插入随即跳转，对随机数进行恒等变换
-第四步：构造虚假随机数跳转
-代码RandomControlFlow.cpp
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686...
+More info: Writing
+Run server1$ hexo ...
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/03/19">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/19</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/03/18/OLLVM-%E6%8C%87%E4%BB%A4%E6%9B%BF%E4%BB%A3/">
-                
-                <span class="abstract-title-text">OLLVM-指令替代</span>
-            </a>
-            <div class="abstract-content">
-                OLLVM-指令替代(建议结合代码后的注释食用!)
-例如a+b&#x3D;a-(-b)，a^b&#x3D; ( ~ a&amp;b) | (a&amp; ~ b) 且仅支持整数
-加法替代
-减法替代
-与替换
-或替换
-异或替换
-代码Substitution.cpp
-1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/03/18">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/18</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/03/17/OLLVM-%E8%99%9A%E5%81%87%E6%8E%A7%E5%88%B6%E6%B5%81/">
-                
-                <span class="abstract-title-text">OLLVM-虚假控制流</span>
-            </a>
-            <div class="abstract-content">
-                OLLVM-虚假控制流建议结合代码后的注释食用！
-
-原理
-步骤第一步：基本块拆分
-第二步：基本块克隆
-第三步：构造虚假跳转
-代码BogusControlFlow.cpp
-12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091#include &quot;llvm/IR/Function.h&quot;...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/03/17">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/17</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/03/15/OLLVM-%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/">
-                
-                <span class="abstract-title-text">OLLVM-控制流平坦化</span>
-            </a>
-            <div class="abstract-content">
-                OLLVM-控制流平坦化建议结合代码后的注释食用！
-
-第一步：保存基本块
-第二步：创建分发块和返回块
-第三步：实现分发块调度
-第四步：实现调度变量的自动调整
-第五步：修复PHI指令和逃逸变量
-代码：FLattening.cpp
-123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/03/15">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/15</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/02/29/llvm%20IR%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%BA%8C/">
-                
-                <span class="abstract-title-text">llvm IR常用指令二</span>
-            </a>
-            <div class="abstract-content">
-                llvm IR常用指令二内存访问和寻址操作alloca指令&lt; result&gt;&#x3D;alloca &lt; type&gt; [,&lt; ty&gt; &lt; NumElements&gt;] [, align &lt; alignment&gt;];
-分配sizeof(type)*NumElements字节的内存，分配的地址与alignment对齐
-1234%ptr = alloca i32                  ;分配4字节的内存并返回i32类型的指针%ptr = alloca i32,i32 4            ;分配4*4字节的内存并返回i3...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/02/29">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/02/29</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/02/28/llvm%20IR%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%B8%80/">
-                
-                <span class="abstract-title-text">llvm IR常用指令一</span>
-            </a>
-            <div class="abstract-content">
-                llvm IR常用指令一终结指令ret指令ret &lt; type&gt;  &lt; value&gt;;返回特定类型返回值的return指令
-ret void;无返回值的return指令
-1234Test:ret i32 5;返回整数5ret void;返回无符号ret &#123; i32 , i8 &#125; &#123; i32 4 , i8 2 &#125;;返回结构体
-
-br指令br i1 &lt; cond&gt;,label &lt; iftrue&gt;,label &lt; iffalse&gt;;有条件跳转
-br label &lt; dest&gt;;无条件...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/02/29">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/02/28</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/12/19/java%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%89/">
-                
-                <span class="abstract-title-text">java学习（2）</span>
-            </a>
-            <div class="abstract-content">
-                java学习（2）外置类123456789101112131415161718192021222324252627282930313233343536public class StudentTest &#123;    public static void main(String[] args)     &#123;    Student s=new Student(&quot;straw&quot;,20);    System.out.println(s.getAge());    System.out.println(s.getName());    &#125;&#125;cla...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/12/19">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/12/19</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/12/07/java%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">
-                
-                <span class="abstract-title-text">java学习（1）</span>
-            </a>
-            <div class="abstract-content">
-                java学习（1）随机数1234567891011121314151617181920import java.util.Random;public class Root1&#123;    public static void main(String[] args) &#123;        int[] arr=&#123;1,2,3,4,5&#125;;        Random r=new Random();        for(int i=0; i&lt; arr.length ;i++)        &#123;            int index=r.nextIn...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/12/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/12/07</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/11/07/2023%E7%9C%81%E8%B5%9B(%E5%88%9D%E8%B5%9B)Reverse%20%E5%A4%8D%E7%8E%B0/">
-                
-                <span class="abstract-title-text">浙江省2023网络安全信息竞赛(初赛)Reverse 复现</span>
-            </a>
-            <div class="abstract-content">
-                浙江省2023网络安全信息竞赛(初赛)Reverse 复现​												我是fw，赛场上纯纯坐牢，只会复现
-
-luare主函数
-
-这里是一段lua的字节码，调试到这一步，提取
-
-学了一手，有个java的unluac.jar反编译脚本，输入
-1java -jar .\unluac.jar lua
-
-
-里面的Oo00Oo0在ida里面
-
-仔细研究一下，是一个查表+异或，关键就在那个ptr的for函数里
-给出脚本
-12345678910111213141516171819202122232425262728293031323334pw=[109,-73,-72,46,-73,-5,...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/11/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/11/07</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/11/01/tea%E5%8A%A0%E5%AF%86/">
-                
-                <span class="abstract-title-text">Tea类型加密</span>
-            </a>
-            <div class="abstract-content">
-                Tea类型加密​        很早就想概括tea类型加密了，对于很多刚开始做逆向的新手来说，这个掌握好了解题确实快，不像之前的我找到了key，密文，算法，还是因为小错误，而解不出来。作为最基础，也是最常见的加密，确实需要好好总结一番的喵~!
-
-Tea12345678910111213141516171819202122void encrypt(unsigned int* v, unsigned int* key) &#123;  unsigned int l = v[0], r = v[1], sum = 0, delta = 0x9e3779b9;  for (int i = 0; ...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/11/01">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/11/01</span>
+                <div class="abstract-date" title="Last updated: 2023/10/29">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/10/29</span>
                 </div>
                 <!-- tags -->
                 
@@ -753,12 +475,160 @@ Tea12345678910111213141516171819202122void encrypt(unsigned int* v, unsigned int
     <!-- paginator  -->
     
         <nav class="page-nav">
-            <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">NEXT &gt;</a>
+            <a class="extend prev" rel="prev" href="/">&lt; PREV</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
         </nav>
     
 </main>
 
                 <!-- profile -->
+                
+                    <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= /avatar/meinasi.png />
+    <div class="profile-name">Straw</div>
+    
+        <div class="profile-signature">
+            ctfer?X Pokémon trainer?✔
+        </div>
+    
+    
+        <div class="profile-social">
+            
+    
+        
+            
+                <a href="mailto:572368426@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Straw-233" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/wechat.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    
+        <div class="friends">
+            <div>
+                
+                FRIENDS
+            </div>
+            
+                
+                    <span>
+                        <a href="https://enllus1on.github.io/" target="_blank">①enllusion(pwn ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://goodlunatic.github.io/" target="_blank">②Lunatic(misc ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://www.x1aoblog.top/" target="_blank">③x1ao(crypto ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://www.fup1p1.cn" target="_blank">④Fup1p1(re ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://pangbai.work" target="_blank">⑤PangBai(Android ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://asal1n.github.io/" target="_blank">⑥AsaL1n(web 🤡)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://xxcc197.github.io/blog/" target="_blank">⑦void2eye(加里奥)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://blog.yoimiya.site/" target="_blank">⑧carbofish(all)</a>
+                    </span>
+                
+            
+        </div>
+    
+    
+        <div class="profile-link-item">
+            <a href="/about" class="about-me">
+                
+                ABOUT ME
+            </a>
+        </div>
+    
+    
+    
+</div>
+
                 
             </div>
             <footer class="footer footer-unloaded">
