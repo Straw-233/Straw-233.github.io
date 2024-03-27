@@ -448,6 +448,42 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2024/03/27/%E5%8F%8D%E6%B7%B7%E6%B7%86%E5%AD%A6%E4%B9%A0-bcf%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96%E7%AF%87/">
+                
+                <span class="abstract-title-text">反混淆学习-fla控制流平坦化篇</span>
+            </a>
+            <div class="abstract-content">
+                反混淆学习-fla控制流平坦化篇感觉反混淆比混淆难多了。。。
+现在也暂时不会怎么自己写ida-python脚本来反混淆
+还是先学学看吧
+deflat工具介绍网上常用的反控制流平坦化的工具，可以直接在终端运行将经过fla编译的可执行文件转化为反混淆过的可执行文件，也支持arm架构。
+下载地址：deflat: use angr to deobfuscation 
+1python deflat.py --file 文件名 --addr 初始地址
+
+需要一个python的angr库
+因为要用到初始地址，所以就要求你的可执行文件没开PIE（随机地址）保护
+（要求还挺苛刻的，估计只有比赛值得一用，实...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2024/03/27">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/03/27</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2024/03/20/OLLVM-%E5%B8%B8%E9%87%8F%E6%9B%BF%E4%BB%A3/">
                 
                 <span class="abstract-title-text">OLLVM-常量替代</span>
@@ -719,47 +755,6 @@ br label &lt; dest&gt;;无条件...
                 <!-- date -->
                 <div class="abstract-date" title="Last updated: 2023/12/07">
                     <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/12/07</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/11/07/2023%E7%9C%81%E8%B5%9B(%E5%88%9D%E8%B5%9B)Reverse%20%E5%A4%8D%E7%8E%B0/">
-                
-                <span class="abstract-title-text">浙江省2023网络安全信息竞赛(初赛)Reverse 复现</span>
-            </a>
-            <div class="abstract-content">
-                浙江省2023网络安全信息竞赛(初赛)Reverse 复现​												我是fw，赛场上纯纯坐牢，只会复现
-
-luare主函数
-
-这里是一段lua的字节码，调试到这一步，提取
-
-学了一手，有个java的unluac.jar反编译脚本，输入
-1java -jar .\unluac.jar lua
-
-
-里面的Oo00Oo0在ida里面
-
-仔细研究一下，是一个查表+异或，关键就在那个ptr的for函数里
-给出脚本
-12345678910111213141516171819202122232425262728293031323334pw=[109,-73,-72,46,-73,-5,...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/11/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/11/07</span>
                 </div>
                 <!-- tags -->
                 
@@ -1089,7 +1084,20 @@ luare主函数
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1150,7 +1158,7 @@ luare主函数
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 12
+        Total : 13
         </div>
         <!-- search  -->
         
@@ -1257,6 +1265,12 @@ luare主函数
             <div class="archive-year"> 2024 </div>
             <ul class="year-list">
             
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/2024/03/27/%E5%8F%8D%E6%B7%B7%E6%B7%86%E5%AD%A6%E4%B9%A0-bcf%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96%E7%AF%87/">反混淆学习-fla控制流平坦化篇</a>
+        </li>
+    
         
         <li class="archive-post-item">
             <span class="archive-post-date">03/18</span>
