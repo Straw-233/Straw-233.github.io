@@ -19,23 +19,45 @@
         <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
     
     <meta name="description" content="Straw_blog">
-    <meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+    <meta name="description" content="ios学习篇(1)引言​		哎，感觉学安卓太难了，没有用过安卓系统，但是之前有过ios越狱经验，干脆直接学ios逆向好了。学了一个星期，才刚把基础题做出来。为了省钱不买mac，就用windows硬搞，吃尽了苦头啊。。。 工具&#x2F;设备iphone 7：dopamine(多巴胺)，牛蛙助手，巨魔商店，open-ssh，debugserver windows系统：ssh，爱思助手，ida 无根越">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="https://straw-233.github.io/2023/10/29/hello-world/index.html">
+<meta property="og:title" content="ios学习篇(1)">
+<meta property="og:url" content="https://straw-233.github.io/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/index.html">
 <meta property="og:site_name" content="Straw">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="ios学习篇(1)引言​		哎，感觉学安卓太难了，没有用过安卓系统，但是之前有过ios越狱经验，干脆直接学ios逆向好了。学了一个星期，才刚把基础题做出来。为了省钱不买mac，就用windows硬搞，吃尽了苦头啊。。。 工具&#x2F;设备iphone 7：dopamine(多巴胺)，牛蛙助手，巨魔商店，open-ssh，debugserver windows系统：ssh，爱思助手，ida 无根越">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-10-29T11:59:56.012Z">
-<meta property="article:modified_time" content="2023-10-29T11:16:03.137Z">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E6%89%80%E9%9C%80%E8%BD%AF%E4%BB%B6.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%A4%9A%E5%B7%B4%E8%83%BA.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%B7%A8%E9%AD%94%E5%95%86%E5%BA%97.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/open-ssh.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/debugserver.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/ssh%E8%BF%9E%E6%8E%A5.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/ipa%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E9%A2%98%E7%9B%AE.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%A4%B4%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/mach-o%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/main%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%85%B3%E9%94%AE%E5%87%BD%E6%95%B0.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/DES%E5%8A%A0%E5%AF%86.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/PID%E6%9F%A5%E7%9C%8B.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E7%9B%91%E5%90%AC.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/ip%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E7%AB%AF%E5%8F%A3%E8%AE%BE%E7%BD%AE.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E4%B8%8B%E6%96%AD%E7%82%B9.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%9C%B0%E5%9D%80.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/flag.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E9%AA%8C%E8%AF%81%E6%88%90%E5%8A%9F.png">
+<meta property="article:published_time" content="2024-04-13T11:16:58.428Z">
+<meta property="article:modified_time" content="2024-04-13T13:14:41.161Z">
 <meta property="article:author" content="Straw">
 <meta property="article:tag" content="Straw">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E6%89%80%E9%9C%80%E8%BD%AF%E4%BB%B6.png">
     <meta http-equiv="Cache-control" content="no-cache">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="icon" href="/assets/meinasi.ico">
     
-    <title>Hello World · Straw&#39;s B1og</title>
+    <title>ios学习篇(1) · Straw&#39;s B1og</title>
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
 - testing support for link[rel=preload]
@@ -262,7 +284,7 @@
                 <a href="/">Straw&#39;s B1og.</a>
             </div>
             <div class="post-title header-element">
-                <a href="#" class="post-name">Hello World</a>
+                <a href="#" class="post-name">ios学习篇(1)</a>
             </div>
         </div>
     
@@ -308,7 +330,7 @@
         <h1 class="intro-title">
             <!-- 主页  -->
             
-                Hello World
+                ios学习篇(1)
             <!-- 404 -->
             
         </h1>
@@ -334,13 +356,13 @@
                 <!-- 文章字数统计 -->
                 
                     <div class="post-intro-read">
-                        <span>字数统计: <span class="post-count word-count">75</span>阅读时长: <span class="post-count reading-time">1 min</span></span>
+                        <span>字数统计: <span class="post-count word-count">1.9k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
                     <!-- 撰写日期 -->
                     <span class="iconfont-archer post-intro-calander">&#xe676;</span>
-                    <span class="post-intro-time">2023/10/29</span>
+                    <span class="post-intro-time">2024/04/13</span>
                     <!-- busuanzi -->
                     
                         <span id="busuanzi_container_page_pv" class="busuanzi-pv">
@@ -495,28 +517,96 @@
             <div class="container container-unloaded">
                 <main class="main post-page">
     <article class="article-entry">
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h1 id="ios学习篇-1"><a href="#ios学习篇-1" class="headerlink" title="ios学习篇(1)"></a>ios学习篇(1)</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>​		哎，感觉学安卓太难了，没有用过安卓系统，但是之前有过ios越狱经验，干脆直接学ios逆向好了。学了一个星期，才刚把基础题做出来。为了省钱不买mac，就用windows硬搞，吃尽了苦头啊。。。</p>
+<h2 id="工具-设备"><a href="#工具-设备" class="headerlink" title="工具&#x2F;设备"></a>工具&#x2F;设备</h2><p>iphone 7：dopamine(多巴胺)，牛蛙助手，巨魔商店，open-ssh，debugserver</p>
+<p>windows系统：ssh，爱思助手，ida</p>
+<h2 id="无根越狱-仅适配ios17以下版本"><a href="#无根越狱-仅适配ios17以下版本" class="headerlink" title="无根越狱(仅适配ios17以下版本)"></a>无根越狱(仅适配ios17以下版本)</h2><p>看了很多教程，试过了WinRa1n，直接报错差点成为苹果板砖了。感觉还是多巴胺一键最简单</p>
+<h3 id="前置步骤"><a href="#前置步骤" class="headerlink" title="前置步骤"></a>前置步骤</h3><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E6%89%80%E9%9C%80%E8%BD%AF%E4%BB%B6.png" alt="所需软件"></p>
+<p>​		先去把爱思助手下了，爱思能帮你配好很多环境，还有唯一可见的ui，只能执行&#x2F;var&#x2F;mobile&#x2F;Media下的文件</p>
+<p>​		再去下个<a target="_blank" rel="noopener" href="https://ios222.com/">牛蛙助手官网_苹果助手</a>，BLFGTool这个可以将你下载的ipa进行签名并且安装</p>
+<p>​		签名详细步骤可以跟着<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1jT4y1H7cu/?spm_id_from=333.337.search-card.all.click&vd_source=934266fa049a08cd3a0a9e4ceda56d20">【免费免越狱】牛蛙助手iphone手机7天自签名神器 手机上自签 从此告别电脑签名 苹果应用多开_哔哩哔哩_bilibili</a>来操作</p>
+<h3 id="中间步骤"><a href="#中间步骤" class="headerlink" title="中间步骤"></a>中间步骤</h3><p>​		在手机上的safari浏览器下一个dopamine(多巴胺)的ipa，然后传到牛蛙助手(如果你有巨魔就用巨魔，因为我的巨魔是越狱后搞得)上进行签名安装，打开多巴胺后，就直接默认设置直接一键越狱即可，后续设置的密码要记住，记得使用sileo越狱商店。</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%A4%9A%E5%B7%B4%E8%83%BA.png" alt="多巴胺"></p>
+<h3 id="后续步骤"><a href="#后续步骤" class="headerlink" title="后续步骤"></a>后续步骤</h3><p>有了sileo以后，就可以添加各种软件源，在源上下载很多插件，工具，软件等，我的字体也是这里改的。</p>
+<p>先在sileo中搜Trollstore helper，对巨魔商店进行一个安装(感觉是通过一个ios的漏洞安装的，因为没越狱也能装)，巨魔商店是一个一个ipa直接安装的超级牛的工具</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%B7%A8%E9%AD%94%E5%95%86%E5%BA%97.png" alt="巨魔商店"></p>
+<p>后面在sileo上再装open-ssh和debug-server，方便我们在windows系统中进行终端操作，和ida远程调试</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/open-ssh.png" alt="open-ssh"></p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/debugserver.png" alt="debugserver"></p>
+<p>最后我喜欢搞一个Filza，一个ios的文件管理器，自带那个权限太低了，啥操作也没有，这个就跟安卓的文件管理器相似了。</p>
+<h2 id="ssh连接"><a href="#ssh连接" class="headerlink" title="ssh连接"></a>ssh连接</h2><p>确保两台设备在同一网络下，使用ssh，进行连接</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@192.168.x.xxx</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>输入密码，一般默认是alpine或者是你之前越狱设置的密码</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/ssh%E8%BF%9E%E6%8E%A5.png" alt="ssh连接"></p>
+<p>这样就成功进入了，ios系统是基于unix系统的，所以一些常见的linux指令也能运行</p>
+<h2 id="动态调试"><a href="#动态调试" class="headerlink" title="动态调试"></a>动态调试</h2><p>以crack me1这题为例子，来演示一下</p>
+<h3 id="ipa"><a href="#ipa" class="headerlink" title="ipa"></a>ipa</h3><p>一般给你的文件就是一个ipa的文件（很多正式的ipa都会有带壳，需要对壳进行砸壳处理，但这题没有），相当于安卓里的apk文件，其实本质上都是一个压缩包，用压缩包打开后，进入&#x2F;Payload&#x2F;crack me1.app&#x2F;</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/ipa%E6%96%87%E4%BB%B6.png" alt="ipa文件"></p>
+<p>就可以看到全部的文件，我们主要用到的是一个mach-o的文件，是mac和ios系统下的可执行文件，就是那个crack me1，关于其他文件是什么，可以自行搜索ipa结构进行分析查看。</p>
+<p>将这个ipa传到巨魔商店里进行安装，打开</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E9%A2%98%E7%9B%AE.png" alt="题目"></p>
+<h3 id="mach-o"><a href="#mach-o" class="headerlink" title="mach-o"></a>mach-o</h3><p>关于怎么判断哪个文件为mach-o文件，其实可以用010中的maho-o的模板看，因为该类文件的文件头和java的.class文件相同，都是CA FE BA BE(咖啡宝贝)</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%A4%B4%E6%96%87%E4%BB%B6.png" alt="头文件"></p>
+<p>模板中也能看到很多文件头，函数表，数据库信息等</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/mach-o%E7%BB%93%E6%9E%84.png" alt="mach-o结构"></p>
+<p>当然如果你有mac，使用machoview会更方便</p>
+<p>通过010我们也可以看到，这个文件把32位和64位架构全部整合进去了，所以这个文件无论在哪种arm架构下都能正常运行，但我们手机基本用的是arm64，所以我们用ida64对文件进行分析。</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/main%E5%87%BD%E6%95%B0.png" alt="main函数"></p>
+<p>打开，发现也能正常反编译，是使用object-c写的，左边的函数表中有一堆，然后main函数只是一个接口，没有关键函数，所以从AppDelegate，ViewController，GTMBase64这几个大类下手。</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6951591401528229895">iOS应用的启动流程和优化详解 - 掘金 (juejin.cn)</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hubert-style/p/15408236.html">iOS程序入口结构 - 背包の技术 - 博客园 (cnblogs.com)</a></p>
+<h3 id="ida分析"><a href="#ida分析" class="headerlink" title="ida分析"></a>ida分析</h3><p>看了一堆文章再加随便乱点以后，发现了关键函数位置ViewController touch</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%85%B3%E9%94%AE%E5%87%BD%E6%95%B0.png" alt="关键函数"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">v33[2] = self;//指向应用程序的委托对象的指针</span><br><span class="line">v33[1] = (id)a2;//选择器</span><br><span class="line">v33[0] = objc_retain(&amp;cfstr_Crack);//v33=&quot;crack&quot;</span><br><span class="line">v2 = +[ViewController DES:KEY:](&amp;OBJC_CLASS___ViewController, &quot;DES:KEY:&quot;, string, v33[0]);//DES加密</span><br><span class="line">v32 = objc_retainAutoreleasedReturnValue(v2);//清空释放</span><br><span class="line">v3 = objc_msgSend((id)textfield, &quot;text&quot;);//相当于scanf，获取text窗口中的数据</span><br><span class="line">v25 = objc_retainAutoreleasedReturnValue(v3);//清空释放</span><br><span class="line">v24 = (unsigned __int8)objc_msgSend(v32, &quot;isEqualToString:&quot;, v25);//比较</span><br><span class="line">objc_release(v25);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/DES%E5%8A%A0%E5%AF%86.png" alt="DES加密"></p>
+<p>细看DES加密的函数，要是不给函数名，估计更难看，这边调用了CommonCrypto 库中的 CCCrypt 函数进行加密或解密操作</p>
+<p>进入CCCrypt细看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">CCCryptorStatus __cdecl CCCrypt(</span><br><span class="line">        CCOperation op,</span><br><span class="line">        CCAlgorithm alg,</span><br><span class="line">        CCOptions options,</span><br><span class="line">        const void *key,</span><br><span class="line">        size_t keyLength,</span><br><span class="line">        const void *iv,</span><br><span class="line">        const void *dataIn,</span><br><span class="line">        size_t dataInLength,</span><br><span class="line">        void *dataOut,</span><br><span class="line">        size_t dataOutAvailable,</span><br><span class="line">        size_t *dataOutMoved)</span><br><span class="line">&#123;</span><br><span class="line">  return _CCCrypt(op, alg, options, key, keyLength, iv, dataIn, dataInLength, dataOut, dataOutAvailable, dataOutMoved);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">解释一下每个参数的作用：</span><br><span class="line">op: 表示进行加密还是解密操作，可以是 kCCEncrypt 或 kCCDecrypt。</span><br><span class="line">alg: 表示使用的加密算法，例如 kCCAlgorithmAES 表示使用 AES 算法。</span><br><span class="line">options: 用于指定加密选项，例如填充方式等。</span><br><span class="line">key: 表示加密或解密所使用的密钥。</span><br><span class="line">keyLength: 表示密钥的长度。</span><br><span class="line">iv: 表示初始化向量（Initialization Vector），在某些加密模式下会使用到。</span><br><span class="line">dataIn: 表示待加密或解密的数据输入。</span><br><span class="line">dataInLength: 表示待加密或解密的数据输入长度。</span><br><span class="line">dataOut: 表示加密或解密后的数据输出。</span><br><span class="line">dataOutAvailable: 表示输出缓冲区的可用空间大小。</span><br><span class="line">dataOutMoved: 表示实际写入到输出缓冲区的数据长度。</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>然后根据参数看出来是DES&#x2F;pkcs7&#x2F;ECB加密，密文是1hKgkdbhfbeu6755d8fk，密钥是crack，但是自己加密出来结果怎么都是是错的，感觉是密钥填充的问题，哎，要是能动态调试这题就秒杀了。</p>
+<h3 id="动态调试-1"><a href="#动态调试-1" class="headerlink" title="动态调试"></a>动态调试</h3><p>最煎熬的地方，看了无数文章，无限个报错，终于成功动调了。</p>
+<p>因为ida本身不自带iphone-server（为什么macos-server都有，iPhone没有？怒了），我们要用其他的方法调试</p>
+<p>我先尝试了用网上下载的debug-server，但是因为iphone自身极高的保护，修改了各种权限后，还是一执行就把我kill掉，估计也是因为签名问题，iphone 的保护真是好啊！</p>
+<p>于是又搜到sileo中的自带的debugserver，在iphone中安装完debugserver后，就已经在环境变量中能直接使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">debugserver-@(#)PROGRAM:LLDB  PROJECT:lldb-14.0.0</span><br><span class="line"> for arm64.</span><br><span class="line">Usage:</span><br><span class="line">  debugserver host:port [program-name program-arg1 program-arg2 ...]</span><br><span class="line">  debugserver /path/file [program-name program-arg1 program-arg2 ...]</span><br><span class="line">  debugserver host:port --attach=&lt;pid&gt;</span><br><span class="line">  debugserver /path/file --attach=&lt;pid&gt;</span><br><span class="line">  debugserver host:port --attach=&lt;process_name&gt;</span><br><span class="line">  debugserver /path/file --attach=&lt;process_name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>将我们的题目在手机中打开</p>
+<p>先要查看你所运行的程序的PID，简单的grep查找指令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux | grep crack</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/PID%E6%9F%A5%E7%9C%8B.png" alt="PID查看"></p>
+<p>可以看到PID为37918</p>
+<p>输入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">debugserver 192.168.x.xxx:3333</span><br><span class="line">               电脑的ip  端口(默认)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E7%9B%91%E5%90%AC.png" alt="监听"></p>
+<p>打开ida,远程调试参数设置</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/ip%E8%AE%BE%E7%BD%AE.png" alt="ip设置"></p>
+<p>那个hostname填的是你手机的ip地址，跟上面的相反</p>
+<p>连上后再用attach process输入刚才获取的程序PID，进行附加</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E7%AB%AF%E5%8F%A3%E8%AE%BE%E7%BD%AE.png" alt="端口设置"></p>
+<p>要慢慢wait，等待各种函数加载好，这样就可以正常调试了，我们在刚才那个分析的判断函数下断个断点</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E4%B8%8B%E6%96%AD%E7%82%B9.png" alt="下断点"></p>
+<p>点进v32</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E5%9C%B0%E5%9D%80.png" alt="地址"></p>
+<p>一个地址，再进去</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/flag.png" alt="flag"></p>
+<p>下面就是我们的flag啦</p>
+<p>输入我们的app进行验证</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/%E9%AA%8C%E8%AF%81%E6%88%90%E5%8A%9F.png" alt="验证成功"></p>
 
     </article>
     <!-- license -->
     
         <div class="license-wrapper">
             <p>原文作者：<a href="https://straw-233.github.io">Straw</a>
-            <p>原文链接：<a href="https://straw-233.github.io/2023/10/29/hello-world/">https://straw-233.github.io/2023/10/29/hello-world/</a>
-            <p>发表日期：<a href="https://straw-233.github.io/2023/10/29/hello-world/">October 29th 2023, 7:59:56 pm</a>
-            <p>更新日期：<a href="https://straw-233.github.io/2023/10/29/hello-world/">October 29th 2023, 7:16:03 pm</a>
+            <p>原文链接：<a href="https://straw-233.github.io/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/">https://straw-233.github.io/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/</a>
+            <p>发表日期：<a href="https://straw-233.github.io/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/">April 13th 2024, 7:16:58 pm</a>
+            <p>更新日期：<a href="https://straw-233.github.io/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/">April 13th 2024, 9:14:41 pm</a>
             <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
         </div>
     
@@ -524,13 +614,13 @@
     <ul class="post-paginator">
         <li class="next">
             
-                <div class="nextSlogan">Next Post</div>
-                <a href="/2023/11/01/tea%E5%8A%A0%E5%AF%86/" title="Tea类型加密">
-                    <div class="nextTitle">Tea类型加密</div>
-                </a>
-            
         </li>
         <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2024/03/27/%E5%8F%8D%E6%B7%B7%E6%B7%86%E5%AD%A6%E4%B9%A0-fla%E7%AF%87/" title="反混淆学习-fla控制流平坦化篇">
+                    <div class="prevTitle">反混淆学习-fla控制流平坦化篇</div>
+                </a>
             
         </li>
     </ul>
@@ -676,7 +766,7 @@
                 <div class="toc-catalog">
                     <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
                 </div>
-                <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-number">1.</span> <span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-number">1.1.</span> <span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-number">1.2.</span> <span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-number">1.3.</span> <span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-number">1.4.</span> <span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ios%E5%AD%A6%E4%B9%A0%E7%AF%87-1"><span class="toc-number">1.</span> <span class="toc-text">ios学习篇(1)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7-%E8%AE%BE%E5%A4%87"><span class="toc-number">1.2.</span> <span class="toc-text">工具&#x2F;设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%A0%B9%E8%B6%8A%E7%8B%B1-%E4%BB%85%E9%80%82%E9%85%8Dios17%E4%BB%A5%E4%B8%8B%E7%89%88%E6%9C%AC"><span class="toc-number">1.3.</span> <span class="toc-text">无根越狱(仅适配ios17以下版本)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.3.1.</span> <span class="toc-text">前置步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.3.2.</span> <span class="toc-text">中间步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.3.3.</span> <span class="toc-text">后续步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ssh%E8%BF%9E%E6%8E%A5"><span class="toc-number">1.4.</span> <span class="toc-text">ssh连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95"><span class="toc-number">1.5.</span> <span class="toc-text">动态调试</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ipa"><span class="toc-number">1.5.1.</span> <span class="toc-text">ipa</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mach-o"><span class="toc-number">1.5.2.</span> <span class="toc-text">mach-o</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ida%E5%88%86%E6%9E%90"><span class="toc-number">1.5.3.</span> <span class="toc-text">ida分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E6%80%81%E8%B0%83%E8%AF%95-1"><span class="toc-number">1.5.4.</span> <span class="toc-text">动态调试</span></a></li></ol></li></ol></li></ol>
             </div>
         
         <!-- sidebar -->
