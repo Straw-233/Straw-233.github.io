@@ -6,7 +6,7 @@
   <link href="https://straw-233.github.io/atom.xml" rel="self"/>
   
   <link href="https://straw-233.github.io/"/>
-  <updated>2024-04-13T13:53:27.911Z</updated>
+  <updated>2024-04-18T13:59:15.265Z</updated>
   <id>https://straw-233.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ios学习篇(2)</title>
+    <link href="https://straw-233.github.io/2024/04/18/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/"/>
+    <id>https://straw-233.github.io/2024/04/18/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/</id>
+    <published>2024-04-18T13:46:25.520Z</published>
+    <updated>2024-04-18T13:59:15.265Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="ios学习篇-2"><a href="#ios学习篇-2" class="headerlink" title="ios学习篇(2)"></a>ios学习篇(2)</h1><h2 id="ipa文件结构"><a href="#ipa文件结构" class="headerlink" title="ipa文件结构"></a>ipa文件结构</h2><p>​ipa以压缩包的形式打开后进入payload中会有很多的文件存在，我们如何进行有效的辨别每个文件是什么，以快速找到对于逆向最有用二进制文件呢，先从ipa的结构入手。</p><p>​本文章将以一个开源的社交app为例子进行简单介绍</p><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/1.png" alt="1"></p><h3 id="Info-plist"><a href="#Info-plist" class="headerlink" title="Info.plist"></a>Info.plist</h3><p>​Info.plist是一个应用的相关配置文件（类似于android的AndroidManifest.xml）</p><p>​可以用plist Editor来查看大致的相关配置信息，当然用vscode看也行不过比较难看</p><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/2.png" alt="2"></p><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/3.png" alt="3"></p><p>​后面还涉及一些权限啥的配置，不展开细讲</p><h3 id="CodeSignature"><a href="#CodeSignature" class="headerlink" title="_CodeSignature"></a>_CodeSignature</h3><ul><li>ipa包签名文件的存放文件夹</li></ul><h3 id="Iproj"><a href="#Iproj" class="headerlink" title=".Iproj"></a>.Iproj</h3><ul><li>App所支持的语言文件</li></ul><h3 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h3><ul><li>插件</li></ul><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/4.png" alt="4"></p><p>​每个插件里的结构也类似</p><h3 id="Frameworks"><a href="#Frameworks" class="headerlink" title="Frameworks"></a>Frameworks</h3><ul><li><p>当前应用使用的三方 Framework 或 Swift 动态库</p><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/5.png" alt="5"></p></li></ul><h3 id="Source"><a href="#Source" class="headerlink" title="Source"></a>Source</h3><ul><li>资源文件</li></ul><h3 id="Assets-car"><a href="#Assets-car" class="headerlink" title="Assets.car"></a>Assets.car</h3><ul><li>Assets.xcassts在编译过程中生成的最终展示文件，默认里面存放各种分辨率图片</li></ul><h3 id="bundle"><a href="#bundle" class="headerlink" title=".bundle"></a>.bundle</h3><ul><li>调用一些其他的资源项目包</li></ul><p>该文件多的话，会非常难逆</p><h3 id="mach-o"><a href="#mach-o" class="headerlink" title="mach-o"></a>mach-o</h3><p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/6.png" alt="6"></p><p>根据Info.plist里找，这就是就是我们需要进行逆向的文件</p><h3 id="nib"><a href="#nib" class="headerlink" title=".nib"></a>.nib</h3><p>.nib 文件是二进制的 plist 文件，其中保存了应用程序中 GUI 组件的位置信息和设置信息。这些文件是通过 Xcode 的 Interface Builder 创建的。Interface Builder 编辑.xib 文件的文本版本，然后再将这些文件打包成二进制格式。</p><h3 id="storyboardc"><a href="#storyboardc" class="headerlink" title=".storyboardc"></a>.storyboardc</h3><ul><li>模块化UI文件</li></ul><h3 id="其他资源文件"><a href="#其他资源文件" class="headerlink" title="其他资源文件"></a>其他资源文件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.xml、.json</span><br><span class="line">.plist：项目中使用资源的.plist文件</span><br><span class="line">.conf：相关的配置文件</span><br><span class="line">.cer、.der、.p12：钥匙串文件</span><br><span class="line">.wav：音频文件</span><br><span class="line">.js、.html</span><br><span class="line">.nib：Xcode自带的数据文件，包含一个窗口程序和应用程序委托对象</span><br><span class="line">.sqlite：数据库文件</span><br><span class="line">.txt：文本文件</span><br><span class="line">.mom：Xcode创建的数据模型文件</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;ios学习篇-2&quot;&gt;&lt;a href=&quot;#ios学习篇-2&quot; class=&quot;headerlink&quot; title=&quot;ios学习篇(2)&quot;&gt;&lt;/a&gt;ios学习篇(2)&lt;/h1&gt;&lt;h2 id=&quot;ipa文件结构&quot;&gt;&lt;a href=&quot;#ipa文件结构&quot; class=&quot;head</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>ios学习篇(1)</title>
