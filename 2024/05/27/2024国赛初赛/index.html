@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Straw">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Straw">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="Straw_blog">
+    <meta name="description" content="2024CISCN初赛 Reverse最近太忙了，终于等pycc搞完，有点时间，进行赛后复现一下  可惜了差道Goreverse，还需再练练，除了安卓其他题都出的挺好的 asm_re汇编看得太慢了，不太熟练，直接取巧提取一下放ida里解析了  一个简单的*+^操作，当时还奇怪为什么是int类型的密文，现在知道了，第一天的签到 123456789101112131415#include &lt;st">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2024CISCN初赛 Reverse复现">
+<meta property="og:url" content="https://straw-233.github.io/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/index.html">
+<meta property="og:site_name" content="Straw">
+<meta property="og:description" content="2024CISCN初赛 Reverse最近太忙了，终于等pycc搞完，有点时间，进行赛后复现一下  可惜了差道Goreverse，还需再练练，除了安卓其他题都出的挺好的 asm_re汇编看得太慢了，不太熟练，直接取巧提取一下放ida里解析了  一个简单的*+^操作，当时还奇怪为什么是int类型的密文，现在知道了，第一天的签到 123456789101112131415#include &lt;st">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526160836214.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240425201336487.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526164235188.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526164644891.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526165504040.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526170136833.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526171458703.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526191855425.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526192238258.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240527124436315.png">
+<meta property="og:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240527124758410.png">
+<meta property="article:published_time" content="2024-05-27T05:11:52.350Z">
+<meta property="article:modified_time" content="2024-05-27T05:18:32.895Z">
+<meta property="article:author" content="Straw">
+<meta property="article:tag" content="Straw">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://straw-233.github.io/img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526160836214.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/meinasi.ico">
+    
+    <title>2024CISCN初赛 Reverse复现 · Straw&#39;s B1og</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- Google tag (gtag.js) -->
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Straw" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Straw's B1og.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Straw&#39;s B1og.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">2024CISCN初赛 Reverse复现</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.png)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                2024CISCN初赛 Reverse复现
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.9k</span>阅读时长: <span class="post-count reading-time">10 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2024/05/27</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="2024CISCN初赛-Reverse"><a href="#2024CISCN初赛-Reverse" class="headerlink" title="2024CISCN初赛 Reverse"></a>2024CISCN初赛 Reverse</h1><p>最近太忙了，终于等pycc搞完，有点时间，进行赛后复现一下</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526160836214.png" alt="image-20240526160836214"></p>
+<p>可惜了差道Goreverse，还需再练练，除了安卓其他题都出的挺好的</p>
+<h2 id="asm-re"><a href="#asm-re" class="headerlink" title="asm_re"></a>asm_re</h2><p>汇编看得太慢了，不太熟练，直接取巧提取一下放ida里解析了</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240425201336487.png" alt="image-20240425201336487"></p>
+<p>一个简单的*+^操作，当时还奇怪为什么是int类型的密文，现在知道了，第一天的签到</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="type">int</span> pw[<span class="number">38</span>]=&#123;<span class="number">0x00001FD7</span>, <span class="number">0x000021B7</span>, <span class="number">0x00001E47</span>, <span class="number">0x00002027</span>, <span class="number">0x000026E7</span>, <span class="number">0x000010D7</span>, <span class="number">0x00001127</span>, <span class="number">0x00002007</span>, </span><br><span class="line">		<span class="number">0x000011C7</span>, <span class="number">0x00001E47</span>, <span class="number">0x00001017</span>, <span class="number">0x00001017</span>, <span class="number">0x000011F7</span>, <span class="number">0x00002007</span>, <span class="number">0x00001037</span>, <span class="number">0x00001107</span>, </span><br><span class="line">		<span class="number">0x00001F17</span>, <span class="number">0x000010D7</span>, <span class="number">0x00001017</span>, <span class="number">0x00001017</span>, <span class="number">0x00001F67</span>, <span class="number">0x00001017</span>, <span class="number">0x000011C7</span>, <span class="number">0x000011C7</span>, </span><br><span class="line">		<span class="number">0x00001017</span>, <span class="number">0x00001FD7</span>, <span class="number">0x00001F17</span>, <span class="number">0x00001107</span>, <span class="number">0x00000F47</span>, <span class="number">0x00001127</span>, <span class="number">0x00001037</span>, <span class="number">0x00001E47</span>, </span><br><span class="line">		<span class="number">0x00001037</span>, <span class="number">0x00001FD7</span>, <span class="number">0x00001107</span>, <span class="number">0x00001FD7</span>, <span class="number">0x00001107</span>, <span class="number">0x00002787</span>&#125;;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">char</span> flag[<span class="number">38</span>];</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">38</span>;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		flag[i]=(((pw[i]<span class="number">-30</span>)^<span class="number">0x4D</span>)<span class="number">-20</span>)/<span class="number">80</span>;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,flag[i]);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//flag&#123;67e9a228e45b622c2992fb5174a4f5f5&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>这种跟类型有关的题还是喜欢用c写</p>
+<h2 id="android-so"><a href="#android-so" class="headerlink" title="android_so"></a>android_so</h2><p>哎只允许真机调试，有点出的不好了，对于我这种模拟器玩家很是难做，借了个学长的真机穿。</p>
+<p>java层就一个base+des-CBC，主要iv和key都放在了so层处理。</p>
+<p>key能直接断在返回那边动调出</p>
+<p>iv用个frida hook cypher.init脚本出</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526164235188.png" alt="image-20240526164235188"></p>
+<h2 id="rust-baby"><a href="#rust-baby" class="headerlink" title="rust_baby"></a>rust_baby</h2><p>看代码看得最头疼的一题，</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526164644891.png" alt="image-20240526164644891"></p>
+<p>先写了个列表，然后慢慢从列表中调用</p>
+<p>动调看加密，先是一个补齐，一直补到104位，这里是第一步加密，取8个字节，一个sub_1400028C3，一个异或</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image.png" alt="image"></p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526165504040.png" alt="image-20240526165504040"></p>
+<p>进去看不懂，但是根据输入输出进行大概猜测就知道是-1，0，+1，+2操作</p>
+<p>后面进行16个字节分组，下一步加密是在这里，异或v96的表，这个表每次循环都会换一下，但是直接动调取就行</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526170136833.png" alt="image-20240526170136833"></p>
+<p>一直到比较段，都没咋动，下面一大串都没啥用</p>
+<p><a href="../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526165822823.png">image-20240526165822823</a></p>
+<p>然后写个脚本出</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">pw = [<span class="number">0x8a</span>,<span class="number">0x07</span>,<span class="number">0x72</span>,<span class="number">0x76</span>,<span class="number">0x8d</span>,<span class="number">0x7d</span>,<span class="number">0x4d</span>,<span class="number">0x51</span>,<span class="number">0x35</span>,<span class="number">0xde</span>,<span class="number">0x88</span>,<span class="number">0x16</span>,<span class="number">0xd4</span>,<span class="number">0x04</span>,<span class="number">0xf9</span>,<span class="number">0x0e</span>,<span class="number">0x08</span>,<span class="number">0xcf</span>,<span class="number">0xcc</span>,<span class="number">0x7c</span>,<span class="number">0x0f</span>,<span class="number">0x0d</span>,<span class="number">0x09</span>,<span class="number">0x5e</span>,<span class="number">0xd5</span>,<span class="number">0x7e</span>,<span class="number">0xe4</span>,<span class="number">0x4b</span>,<span class="number">0xc4</span>,<span class="number">0xf3</span>,<span class="number">0x1c</span>,<span class="number">0xaf</span>,<span class="number">0x12</span>,<span class="number">0xe4</span>,<span class="number">0xa0</span>,<span class="number">0xae</span>,<span class="number">0xf6</span>,<span class="number">0x69</span>,<span class="number">0xc9</span>,<span class="number">0xd2</span>,<span class="number">0xe0</span>,<span class="number">0xa7</span>,<span class="number">0x01</span>,<span class="number">0x0e</span>,<span class="number">0x1a</span>,<span class="number">0x57</span>,<span class="number">0x70</span>,<span class="number">0x92</span>,<span class="number">0x61</span>,<span class="number">0x49</span>,<span class="number">0x7a</span>,<span class="number">0x43</span>,<span class="number">0x27</span>,<span class="number">0x29</span>,<span class="number">0x89</span>,<span class="number">0xb5</span>,<span class="number">0x92</span>,<span class="number">0x2e</span>,<span class="number">0x6a</span>,<span class="number">0xa6</span>,<span class="number">0xdb</span>,<span class="number">0x2f</span>,<span class="number">0xc6</span>,<span class="number">0xa9</span>,<span class="number">0x6e</span>,<span class="number">0x8f</span>,<span class="number">0x34</span>,<span class="number">0x90</span>,<span class="number">0x59</span>,<span class="number">0xfc</span>,<span class="number">0x2d</span>,<span class="number">0x91</span>,<span class="number">0x66</span>,<span class="number">0xeb</span>,<span class="number">0xbe</span>,<span class="number">0x0d</span>,<span class="number">0xf4</span>,<span class="number">0x05</span>,<span class="number">0x0b</span>,<span class="number">0x1b</span>,<span class="number">0xcb</span>,<span class="number">0x18</span>,<span class="number">0x74</span>,<span class="number">0xf9</span>,<span class="number">0x82</span>,<span class="number">0x81</span>,<span class="number">0xbc</span>,<span class="number">0x04</span>,<span class="number">0xd9</span>,<span class="number">0x75</span>,<span class="number">0x8e</span>,<span class="number">0x2d</span>,<span class="number">0x97</span>,<span class="number">0x07</span>,<span class="number">0x7c</span>,<span class="number">0x7d</span>,<span class="number">0x18</span>,<span class="number">0xc8</span>,<span class="number">0x3d</span>,<span class="number">0x4f</span>,<span class="number">0xc0</span>,<span class="number">0xa5</span>,<span class="number">0x6a</span>,<span class="number">0xd7</span>]</span><br><span class="line">key = [<span class="number">0xDC</span>,<span class="number">0x5F</span>,<span class="number">0x20</span>,<span class="number">0x22</span>,<span class="number">0xC2</span>,<span class="number">0x79</span>,<span class="number">0x19</span>,<span class="number">0x56</span>,<span class="number">0x35</span>,<span class="number">0xDA</span>,<span class="number">0x8B</span>,<span class="number">0x47</span>,<span class="number">0xD3</span>,<span class="number">0x19</span>,<span class="number">0xFC</span>,<span class="number">0x55</span>,<span class="number">0x14</span>,<span class="number">0xCD</span>,<span class="number">0xD2</span>,<span class="number">0x7B</span>,<span class="number">0x58</span>,<span class="number">0x59</span>,<span class="number">0x09</span>,<span class="number">0x42</span>,<span class="number">0xDE</span>,<span class="number">0x2C</span>,<span class="number">0xB4</span>,<span class="number">0x48</span>,<span class="number">0xD9</span>,<span class="number">0xF2</span>,<span class="number">0x1B</span>,<span class="number">0xA9</span>,<span class="number">0x40</span>,<span class="number">0xE1</span>,<span class="number">0xA6</span>,<span class="number">0xFB</span>,<span class="number">0xFF</span>,<span class="number">0x38</span>,<span class="number">0xC1</span>,<span class="number">0xD5</span>,<span class="number">0xE2</span>,<span class="number">0xE8</span>,<span class="number">0x77</span>,<span class="number">0x78</span>,<span class="number">0x6F</span>,<span class="number">0x22</span>,<span class="number">0x04</span>,<span class="number">0xE6</span>,<span class="number">0x16</span>,<span class="number">0x3E</span>,<span class="number">0x0C</span>,<span class="number">0x35</span>,<span class="number">0x52</span>,<span class="number">0x5C</span>,<span class="number">0xFD</span>,<span class="number">0xC1</span>,<span class="number">0xE5</span>,<span class="number">0x59</span>,<span class="number">0x1C</span>,<span class="number">0xD0</span>,<span class="number">0xAE</span>,<span class="number">0x5A</span>,<span class="number">0xB2</span>,<span class="number">0xDD</span>,<span class="number">0x19</span>,<span class="number">0xF8</span>,<span class="number">0x42</span>,<span class="number">0xE6</span>,<span class="number">0x2C</span>,<span class="number">0x89</span>,<span class="number">0x59</span>,<span class="number">0xE5</span>,<span class="number">0x11</span>,<span class="number">0x9C</span>,<span class="number">0xC8</span>,<span class="number">0x7B</span>,<span class="number">0x81</span>,<span class="number">0x70</span>,<span class="number">0x7F</span>,<span class="number">0x6F</span>,<span class="number">0xBC</span>,<span class="number">0x6F</span>,<span class="number">0x02</span>,<span class="number">0x8F</span>,<span class="number">0xF7</span>,<span class="number">0xF4</span>,<span class="number">0xC8</span>,<span class="number">0x70</span>,<span class="number">0xAE</span>,<span class="number">0x02</span>,<span class="number">0xF8</span>,<span class="number">0x5B</span>,<span class="number">0xE2</span>,<span class="number">0x72</span>,<span class="number">0x08</span>,<span class="number">0x09</span>,<span class="number">0x6F</span>,<span class="number">0xBF</span>,<span class="number">0x4B</span>,<span class="number">0x39</span>,<span class="number">0xB5</span>,<span class="number">0xD0</span>,<span class="number">0x1E</span>,<span class="number">0xA3</span>,<span class="number">0x23</span>,<span class="number">0xAB</span>,<span class="number">0x9B</span>,<span class="number">0x43</span>,<span class="number">0xB1</span>,<span class="number">0x15</span>,<span class="number">0xD7</span>,<span class="number">0xBE</span>,]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(pw)):</span><br><span class="line">    pw[i] ^= key[i]</span><br><span class="line">    pw[i] ^= <span class="number">0x33</span></span><br><span class="line">    <span class="keyword">if</span> (((i%<span class="number">8</span>)//<span class="number">2</span>)==<span class="number">0</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(pw[i]+<span class="number">1</span>),end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> (((i%<span class="number">8</span>)//<span class="number">2</span>)==<span class="number">1</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(pw[i]),end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">elif</span> (((i%<span class="number">8</span>)//<span class="number">2</span>)==<span class="number">2</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(pw[i]-<span class="number">1</span>),end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="built_in">chr</span>(pw[i]-<span class="number">2</span>),end=<span class="string">&quot;&quot;</span>)</span><br><span class="line">//flag&#123;6e2480b3-4f02-4cf1-9bc0-123b75f9a922&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="whereThe1b"><a href="#whereThe1b" class="headerlink" title="whereThe1b"></a>whereThe1b</h2><p>一个python写的lib，base32，各种随机数异或调用啥的，看了一会不想看了，发现是分组加密，三位对应四位，而且是可见字符，直接放在虚拟机(因为好像只有linux能调用cpython)里爆破了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> whereThel1b</span><br><span class="line"></span><br><span class="line">encry = [<span class="number">108</span>, <span class="number">117</span>, <span class="number">72</span>, <span class="number">80</span>, <span class="number">64</span>, <span class="number">49</span>, <span class="number">99</span>, <span class="number">19</span>, <span class="number">69</span>, <span class="number">115</span>, <span class="number">94</span>, <span class="number">93</span>, <span class="number">94</span>, <span class="number">115</span>, <span class="number">71</span>, <span class="number">95</span>, <span class="number">84</span>, <span class="number">89</span>, <span class="number">56</span>, <span class="number">101</span>, <span class="number">70</span>, <span class="number">2</span>, <span class="number">84</span>, <span class="number">75</span>, <span class="number">127</span>, <span class="number">68</span>, <span class="number">103</span>, <span class="number">85</span>, <span class="number">105</span>, <span class="number">113</span>, <span class="number">80</span>, <span class="number">103</span>, <span class="number">95</span>, <span class="number">67</span>, <span class="number">81</span>, <span class="number">7</span>, <span class="number">113</span>, <span class="number">70</span>, <span class="number">47</span>, <span class="number">73</span>, <span class="number">92</span>, <span class="number">124</span>, <span class="number">93</span>, <span class="number">120</span>, <span class="number">104</span>, <span class="number">108</span>, <span class="number">106</span>, <span class="number">17</span>, <span class="number">80</span>, <span class="number">102</span>, <span class="number">101</span>, <span class="number">75</span>, <span class="number">93</span>, <span class="number">68</span>, <span class="number">121</span>, <span class="number">26</span>]</span><br><span class="line">flag = <span class="string">&quot;&#123;&#125;&#123;&#125;&#123;&#125;&quot;</span></span><br><span class="line"><span class="keyword">for</span> o <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">14</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">            <span class="keyword">for</span> k <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">32</span>,<span class="number">127</span>):</span><br><span class="line">                flag=<span class="string">f&#x27;<span class="subst">&#123;<span class="built_in">chr</span>(i)&#125;</span><span class="subst">&#123;<span class="built_in">chr</span>(j)&#125;</span><span class="subst">&#123;<span class="built_in">chr</span>(k)&#125;</span>&#x27;</span>*<span class="number">14</span></span><br><span class="line">                flag = flag.encode()</span><br><span class="line">                ret = whereThel1b.trytry(flag)</span><br><span class="line">                <span class="keyword">if</span> ret[(<span class="number">4</span>*o):(<span class="number">4</span>*o+<span class="number">4</span>)]==encry[(<span class="number">4</span>*o):(<span class="number">4</span>*o+<span class="number">4</span>)]:</span><br><span class="line">                    <span class="built_in">print</span>(flag,end=<span class="string">&#x27;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Goreverse"><a href="#Goreverse" class="headerlink" title="Goreverse"></a>Goreverse</h2><p>思路超级清晰，就是加密嵌套太多层了，只要一出错就得还原重新看，sm4那里就是死活出不来，最后才知道是iv搞错了，真无语了，这题调试还是一坨，调一步卡一步，有两个反调试。最后看vidar-team的wp复现的。</p>
+<p>先用go脚本还原一下大部分符号名</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526171458703.png" alt="image-20240526171458703"></p>
+<p>main函数一个反调试，直接把exit()nop掉就行，继续运行到</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526191855425.png" alt="image-20240526191855425"></p>
+<p>很明显一个open了一个flag文件读入，然后进行以下几个操作，逐步分析</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240526192238258.png" alt="image-20240526192238258"></p>
+<p>大概就是这样，找到aes的key和iv，然后找到sm4的key和iv，还原xxtea算法和找到xxtea的key，找到异或表，就可以穿了。。。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> table[]=<span class="string">&quot;D7BJLsOk9@f&amp;1dWIn53IDlJqUS6$^WhkAk2kk*2GaqmLwiLX^bGGE$&amp;dmqR^g5bL3&quot;</span>;</span><br><span class="line"><span class="type">char</span> keyxxtea[]=<span class="string">&quot;Bs^8*wZ4lu8oR&amp;@k&quot;</span>;</span><br><span class="line"><span class="type">char</span> keySm4[]=<span class="string">&quot;pg5g#k6Qo3L&amp;1EzT&quot;</span>;</span><br><span class="line"><span class="type">char</span> keyaes[]=<span class="string">&quot;dPGWgcLpqmxw3uOXhKpKV009Cql@@XE6&quot;</span>;</span><br><span class="line"><span class="type">char</span> ivaes[]=<span class="string">&quot;dPGWgcLpqmxw3uOX&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240527124436315.png" alt="image-20240527124436315"></p>
+<p>输出的前16个字节是sm4的iv，后面的都是sm4的密文，因为进行加密的iv是随机数，只能通过这个方法判断</p>
+<p><img src="/../img/2024CISCN%E5%88%9D%E8%B5%9B/image-20240527124758410.png" alt="image-20240527124758410"></p>
+<p>最后再进行一步xxtea解密和异或表</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> delta 0x7FAB4CAD</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> v[<span class="number">20</span>] = &#123;<span class="number">0xa17bd6ac</span>,<span class="number">0x5ec21b5e</span>,<span class="number">0xa42f58b2</span>,<span class="number">0x1f8dcfae</span>,<span class="number">0x17e7d4bb</span>,<span class="number">0x8bb7be13</span>,<span class="number">0xf335137e</span>,<span class="number">0x24eedf2f</span>,<span class="number">0xf57f3e58</span>,<span class="number">0xe246395a</span>,<span class="number">0x1c4f3291</span>&#125;;<span class="comment">//可改</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> key[<span class="number">4</span>] = &#123;<span class="number">0x385E7342</span>, <span class="number">0x345A772A</span>, <span class="number">0x6F38756C</span>, <span class="number">0x6B402652</span>&#125;;<span class="comment">//可改</span></span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> sum = <span class="number">0</span>;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> y,z,p,rounds,e;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">int</span> table[<span class="number">100</span>]=&#123;<span class="number">0x44</span>, <span class="number">0x37</span>, <span class="number">0x42</span>, <span class="number">0x4A</span>, <span class="number">0x4C</span>, <span class="number">0x73</span>, <span class="number">0x4F</span>, <span class="number">0x6B</span>, <span class="number">0x39</span>, <span class="number">0x40</span>, <span class="number">0x66</span>, <span class="number">0x26</span>, <span class="number">0x31</span>, <span class="number">0x64</span>, <span class="number">0x57</span>, <span class="number">0x49</span>, </span><br><span class="line">		<span class="number">0x6E</span>, <span class="number">0x35</span>, <span class="number">0x33</span>, <span class="number">0x49</span>, <span class="number">0x44</span>, <span class="number">0x6C</span>, <span class="number">0x4A</span>, <span class="number">0x71</span>, <span class="number">0x55</span>, <span class="number">0x53</span>, <span class="number">0x36</span>, <span class="number">0x24</span>, <span class="number">0x5E</span>, <span class="number">0x57</span>, <span class="number">0x68</span>, <span class="number">0x6B</span>, </span><br><span class="line">		<span class="number">0x41</span>, <span class="number">0x6B</span>, <span class="number">0x32</span>, <span class="number">0x6B</span>, <span class="number">0x6B</span>, <span class="number">0x2A</span>, <span class="number">0x32</span>, <span class="number">0x47</span>, <span class="number">0x61</span>, <span class="number">0x71</span>, <span class="number">0x6D</span>, <span class="number">0x4C</span>, <span class="number">0x77</span>, <span class="number">0x69</span>, <span class="number">0x4C</span>, <span class="number">0x58</span>, </span><br><span class="line">		<span class="number">0x5E</span>, <span class="number">0x62</span>, <span class="number">0x47</span>, <span class="number">0x47</span>, <span class="number">0x45</span>, <span class="number">0x24</span>, <span class="number">0x26</span>, <span class="number">0x64</span>, <span class="number">0x6D</span>, <span class="number">0x71</span>, <span class="number">0x52</span>, <span class="number">0x5E</span>, <span class="number">0x67</span>, <span class="number">0x35</span>, <span class="number">0x62</span>, <span class="number">0x4C</span>, </span><br><span class="line">		<span class="number">0x33</span>, <span class="number">0x6C</span>, <span class="number">0x43</span>, <span class="number">0x41</span>, <span class="number">0x35</span>, <span class="number">0x5E</span>, <span class="number">0x48</span>, <span class="number">0x47</span>, <span class="number">0x4B</span>, <span class="number">0x24</span>, <span class="number">0x39</span>, <span class="number">0x71</span>, <span class="number">0x6F</span>, <span class="number">0x35</span>, <span class="number">0x54</span>, <span class="number">0x40</span>, </span><br><span class="line">		<span class="number">0x42</span>, <span class="number">0x77</span>, <span class="number">0x6F</span>, <span class="number">0x6D</span>, <span class="number">0x39</span>, <span class="number">0x76</span>, <span class="number">0x45</span>, <span class="number">0x58</span>, <span class="number">0x79</span>, <span class="number">0x61</span>, <span class="number">0x30</span>, <span class="number">0x48</span>, <span class="number">0x41</span>, <span class="number">0x56</span>, <span class="number">0x33</span>, <span class="number">0x4C</span>, </span><br><span class="line">		<span class="number">0x72</span>, <span class="number">0x57</span>, <span class="number">0x57</span>&#125;;</span><br><span class="line">	<span class="type">int</span> n = <span class="number">11</span>;<span class="comment">//v的个数</span></span><br><span class="line">	<span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">	rounds = <span class="number">6</span> + <span class="number">52</span>/n;<span class="comment">//容易魔改</span></span><br><span class="line">	y = v[<span class="number">0</span>];</span><br><span class="line">	sum = rounds*delta;</span><br><span class="line">	<span class="keyword">do</span></span><br><span class="line">	&#123;</span><br><span class="line">		e = sum &gt;&gt; <span class="number">2</span> &amp; <span class="number">3</span>;</span><br><span class="line">		<span class="keyword">for</span>(p=n<span class="number">-1</span>;p&gt;<span class="number">0</span>;p--)</span><br><span class="line">		&#123;</span><br><span class="line">			z = v[p<span class="number">-1</span>];</span><br><span class="line">			v[p] -= ((((z&gt;&gt;<span class="number">5</span>)^(y&lt;&lt;<span class="number">2</span>))+((y&gt;&gt;<span class="number">3</span>)^(z&lt;&lt;<span class="number">4</span>))) ^y ^ sum) + (key[(p&amp;<span class="number">3</span>)^e]^z);<span class="comment">//容易魔改</span></span><br><span class="line">			y = v[p];</span><br><span class="line">		&#125;</span><br><span class="line">		z = v[n<span class="number">-1</span>];</span><br><span class="line">		v[<span class="number">0</span>] -= ((((z&gt;&gt;<span class="number">5</span>)^(y&lt;&lt;<span class="number">2</span>))+((y&gt;&gt;<span class="number">3</span>)^(z&lt;&lt;<span class="number">4</span>))) ^y ^ sum) + (key[(p&amp;<span class="number">3</span>)^e]^z);<span class="comment">//容易魔改</span></span><br><span class="line">		y = v[<span class="number">0</span>];</span><br><span class="line">		sum -= delta;</span><br><span class="line">	&#125;<span class="keyword">while</span>(--rounds);</span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,*((<span class="type">char</span>*)&amp;v[i])^table[i*<span class="number">4</span>]);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,*((<span class="type">char</span>*)&amp;v[i]+<span class="number">1</span>)^table[i*<span class="number">4</span>+<span class="number">1</span>]);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,*((<span class="type">char</span>*)&amp;v[i]+<span class="number">2</span>)^table[i*<span class="number">4</span>+<span class="number">2</span>]);</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,*((<span class="type">char</span>*)&amp;v[i]+<span class="number">3</span>)^table[i*<span class="number">4</span>+<span class="number">3</span>]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//flag&#123;9c2a42ab-b02d-457e-befb-27af6a7fa7bc&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="gdb-debug"><a href="#gdb-debug" class="headerlink" title="gdb_debug"></a>gdb_debug</h2><p>固定的种子，一共调用了三次，先把需要用的rand值全部打印出来成为一个表，然后加密就是简单的异或+换表顺序+异或，写个脚本出了，第二天的签到。。。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;cstdlib&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;cstdio&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;defs.h&quot;</span></span></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> data2[] = &#123;<span class="number">220</span>, <span class="number">184</span>, <span class="number">64</span>, <span class="number">189</span>, <span class="number">156</span>, <span class="number">201</span>, <span class="number">110</span>, <span class="number">101</span>, <span class="number">239</span>, <span class="number">18</span>, <span class="number">216</span>, <span class="number">152</span>, <span class="number">105</span>, <span class="number">208</span>, <span class="number">222</span>, <span class="number">252</span>, <span class="number">107</span>, <span class="number">174</span>, <span class="number">125</span>, <span class="number">139</span>, <span class="number">214</span>,</span><br><span class="line">               <span class="number">141</span>, <span class="number">15</span>, <span class="number">208</span>, <span class="number">79</span>, <span class="number">102</span>, <span class="number">62</span>, <span class="number">157</span>, <span class="number">250</span>, <span class="number">195</span>, <span class="number">233</span>, <span class="number">36</span>, <span class="number">211</span>, <span class="number">239</span>, <span class="number">255</span>, <span class="number">157</span>, <span class="number">231</span>, <span class="number">1</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">int</span> rand_list[]&#123;</span><br><span class="line">        <span class="number">0x1fae43d9</span>, <span class="number">0x14da3e0f</span>, <span class="number">0x29fdc718</span>, <span class="number">0x6b7956bd</span>, <span class="number">0x565247c7</span>, <span class="number">0x118e4e16</span>, <span class="number">0xec41481</span>, <span class="number">0x2853f3be</span>, <span class="number">0x18fe7af8</span>,</span><br><span class="line">        <span class="number">0x637a7d4a</span>, <span class="number">0x4c235f65</span>, <span class="number">0x1a636af2</span>, <span class="number">0xf8e55d</span>, <span class="number">0x3f4562ab</span>, <span class="number">0x910412b</span>, <span class="number">0x57ec233</span>, <span class="number">0x1a9fe4d4</span>, <span class="number">0x321373a5</span>,</span><br><span class="line">        <span class="number">0x5aa40d67</span>, <span class="number">0x7661698</span>, <span class="number">0x7e44749f</span>, <span class="number">0x3c64e7e</span>, <span class="number">0x49be3e2b</span>, <span class="number">0x394c025d</span>, <span class="number">0x6acb9dc2</span>, <span class="number">0x726285af</span>, <span class="number">0x7d6818e</span>,</span><br><span class="line">        <span class="number">0x655c983a</span>, <span class="number">0x7afa9e4c</span>, <span class="number">0x7f7af6a5</span>, <span class="number">0x5b28f175</span>, <span class="number">0x1aa8e225</span>, <span class="number">0x145534b4</span>, <span class="number">0x526b88d</span>, <span class="number">0x62238e3</span>, <span class="number">0x6aa77c7b</span>,</span><br><span class="line">        <span class="number">0x16b506a3</span>, <span class="number">0x14e64d64</span>, <span class="number">0x12fb7039</span>, <span class="number">0x2fb3819c</span>, <span class="number">0x7860caae</span>, <span class="number">0x5f1ecf9e</span>, <span class="number">0x4a16ec8e</span>, <span class="number">0x7959b00b</span>, <span class="number">0x1e64324a</span>,</span><br><span class="line">        <span class="number">0x53272db9</span>, <span class="number">0x7ed8723f</span>, <span class="number">0x3904171e</span>, <span class="number">0x53aa15e</span>, <span class="number">0x597c7fa6</span>, <span class="number">0x406a2db6</span>, <span class="number">0x37f15fd</span>, <span class="number">0x5d42ce25</span>, <span class="number">0xa286be1</span>,</span><br><span class="line">        <span class="number">0x3ccb185a</span>, <span class="number">0x480e6be7</span>, <span class="number">0x7c8af191</span>, <span class="number">0x44a199e8</span>, <span class="number">0x2d6b0421</span>, <span class="number">0x77858fdd</span>, <span class="number">0x441c908d</span>, <span class="number">0x893f596</span>, <span class="number">0x122e7202</span>,</span><br><span class="line">        <span class="number">0x5871c541</span>, <span class="number">0xdbaae23</span>, <span class="number">0x1850aae5</span>, <span class="number">0x431941bc</span>, <span class="number">0x246fb4c7</span>, <span class="number">0x2d36f849</span>, <span class="number">0x5614b1f5</span>, <span class="number">0x54233663</span>, <span class="number">0x2597c2f7</span>,</span><br><span class="line">        <span class="number">0x35338194</span>, <span class="number">0x1e3a22f1</span>, <span class="number">0x1ef17303</span>, <span class="number">0x5397b3de</span>, <span class="number">0x716150aa</span>, <span class="number">0x1dc9e542</span>, <span class="number">0xc9bcafc</span>, <span class="number">0x769bf209</span>, <span class="number">0x774664e8</span>,</span><br><span class="line">        <span class="number">0x4d05f8b2</span>, <span class="number">0x7a1b0806</span>, <span class="number">0x5489330d</span>, <span class="number">0x572e6493</span>, <span class="number">0x36e62061</span>, <span class="number">0x1c979ef4</span>, <span class="number">0x53b95624</span>, <span class="number">0x7b87ba49</span>, <span class="number">0x4a02a315</span>,</span><br><span class="line">        <span class="number">0x4b3ee601</span>, <span class="number">0x3fa44ad7</span>, <span class="number">0x529698ab</span>, <span class="number">0x5d6d5804</span>, <span class="number">0x18161018</span>, <span class="number">0x605146cf</span>, <span class="number">0x75be02e9</span>, <span class="number">0x5b2f51d5</span>, <span class="number">0x4c0fb96</span>,</span><br><span class="line">        <span class="number">0x22f4fb33</span>, <span class="number">0x314403ca</span>, <span class="number">0x58e431f9</span>, <span class="number">0x488cbe2a</span>, <span class="number">0x6677855e</span>, <span class="number">0x771e54ea</span>, <span class="number">0x677e312d</span>, <span class="number">0x3a0f393c</span>, <span class="number">0x687fa594</span>,</span><br><span class="line">        <span class="number">0x548166f</span>, <span class="number">0x46ab0438</span>, <span class="number">0x5f1b979d</span>, <span class="number">0x7c8e7b58</span>, <span class="number">0x13b0fcea</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="type">unsigned</span> <span class="type">char</span> unsi[<span class="number">40</span>] = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    srand(<span class="number">1610612736</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; ++i) &#123;</span><br><span class="line">        data2[i] ^= rand_list[<span class="number">38</span> + <span class="number">37</span> + i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="type">void</span> *ptr = <span class="built_in">malloc</span>(<span class="number">40</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; ++i) ((_BYTE *) ptr)[i] = i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k = <span class="number">38</span> - <span class="number">1</span>; k; --k) &#123;</span><br><span class="line">        <span class="type">int</span> v18 = rand_list[<span class="number">38</span> + <span class="number">37</span> - k] % (k + <span class="number">1</span>);</span><br><span class="line">        <span class="type">int</span> v19 = *((_BYTE *) ptr + k);</span><br><span class="line">        *((_BYTE *) ptr + k) = *((_BYTE *) ptr + v18);</span><br><span class="line">        *((_BYTE *) ptr + v18) = v19;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">40</span>; ++i) &#123;</span><br><span class="line">        _BYTE current = data2[i];</span><br><span class="line">        unsi[((_BYTE *) ptr)[i]] = current;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; ++i) &#123;</span><br><span class="line">        unsi[i] ^= rand_list[i];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">38</span>; ++i) &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>, unsi[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://straw-233.github.io">Straw</a>
+            <p>原文链接：<a href="https://straw-233.github.io/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/">https://straw-233.github.io/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/</a>
+            <p>发表日期：<a href="https://straw-233.github.io/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/">May 27th 2024, 1:11:52 pm</a>
+            <p>更新日期：<a href="https://straw-233.github.io/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/">May 27th 2024, 1:18:32 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2024/04/18/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/" title="ios学习篇(2)">
+                    <div class="prevTitle">ios学习篇(2)</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:572368426@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Straw-233" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/wechat.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#2024CISCN%E5%88%9D%E8%B5%9B-Reverse"><span class="toc-number">1.</span> <span class="toc-text">2024CISCN初赛 Reverse</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#asm-re"><span class="toc-number">1.1.</span> <span class="toc-text">asm_re</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#android-so"><span class="toc-number">1.2.</span> <span class="toc-text">android_so</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#rust-baby"><span class="toc-number">1.3.</span> <span class="toc-text">rust_baby</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#whereThe1b"><span class="toc-number">1.4.</span> <span class="toc-text">whereThe1b</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Goreverse"><span class="toc-number">1.5.</span> <span class="toc-text">Goreverse</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb-debug"><span class="toc-number">1.6.</span> <span class="toc-text">gdb_debug</span></a></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 16
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span>
+            <a class="archive-post-title" href="/2023/12/19/java%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%89/">java学习（2）</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/2023/11/07/2023%E7%9C%81%E8%B5%9B(%E5%88%9D%E8%B5%9B)Reverse%20%E5%A4%8D%E7%8E%B0/">浙江省2023网络安全信息竞赛(初赛)Reverse 复现</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/01</span>
+            <a class="archive-post-title" href="/2023/11/01/tea%E5%8A%A0%E5%AF%86/">Tea类型加密</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/2023/10/29/hello-world/">Hello World</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2023/12/07/java%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">java学习（1）</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/02/28/llvm%20IR%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%B8%80/">llvm IR常用指令一</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/02/29/llvm%20IR%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%BA%8C/">llvm IR常用指令二</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/03/17/OLLVM-%E8%99%9A%E5%81%87%E6%8E%A7%E5%88%B6%E6%B5%81/">OLLVM-虚假控制流</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span>
+            <a class="archive-post-title" href="/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/">2024CISCN初赛 Reverse复现</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2024/04/18/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/">ios学习篇(2)</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span>
+            <a class="archive-post-title" href="/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/">ios学习篇(1)</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/2024/03/27/%E5%8F%8D%E6%B7%B7%E6%B7%86%E5%AD%A6%E4%B9%A0-fla%E7%AF%87/">反混淆学习-fla控制流平坦化篇</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span>
+            <a class="archive-post-title" href="/2024/03/18/OLLVM-%E6%8C%87%E4%BB%A4%E6%9B%BF%E4%BB%A3/">OLLVM-指令替代</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/2024/03/15/OLLVM-%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/">OLLVM-控制流平坦化</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/03/19/OLLVM-%E9%9A%8F%E6%9C%BA%E6%8E%A7%E5%88%B6%E6%B5%81/">OLLVM-随机控制流</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/03/20/OLLVM-%E5%B8%B8%E9%87%8F%E6%9B%BF%E4%BB%A3/">OLLVM-常量替代</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://straw-233.github.io",
+        root: siteMetaRoot,
+        author: "Straw"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
