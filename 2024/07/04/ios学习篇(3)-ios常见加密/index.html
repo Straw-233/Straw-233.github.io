@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <!-- title -->
+
+
+    
+
+<!-- keywords -->
+
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="author" content="Straw">
+    <meta name="renderer" content="webkit">
+    <meta name="copyright" content="Straw">
+    
+        <meta name="keywords" content="hexo,hexo-theme,hexo-blog">
+    
+    <meta name="description" content="Straw_blog">
+    <meta name="description" content="ios常见加密前言​		在学习篇(1)中有提及过CCCrypt，最近在学习登录加密算法的时候发现ios的加密大部分都是调用函数库的，现在来总结一下现在遇到的比较多见的加密。 CC_MD5​		最简单也是最常用的 123456789101112-(NSString *)stringWithMD5&amp;#123;    const char *cStr &#x3D; [self UTF8String];    un">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ios学习篇(3)-ios常见加密">
+<meta property="og:url" content="https://straw-233.github.io/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/index.html">
+<meta property="og:site_name" content="Straw">
+<meta property="og:description" content="ios常见加密前言​		在学习篇(1)中有提及过CCCrypt，最近在学习登录加密算法的时候发现ios的加密大部分都是调用函数库的，现在来总结一下现在遇到的比较多见的加密。 CC_MD5​		最简单也是最常用的 123456789101112-(NSString *)stringWithMD5&amp;#123;    const char *cStr &#x3D; [self UTF8String];    un">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/%E6%8A%93%E5%8C%85.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/%E9%AA%8C%E8%AF%81.png">
+<meta property="og:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/base64.png">
+<meta property="og:image" content="https://straw-233.github.io/img/%E5%B7%B2%E8%80%81%E5%AE%9E.jpg">
+<meta property="article:published_time" content="2024-07-04T13:34:00.184Z">
+<meta property="article:modified_time" content="2024-07-04T15:07:02.398Z">
+<meta property="article:author" content="Straw">
+<meta property="article:tag" content="Straw">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://straw-233.github.io/img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/%E6%8A%93%E5%8C%85.png">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <link rel="icon" href="/assets/meinasi.ico">
+    
+    <title>ios学习篇(3)-ios常见加密 · Straw&#39;s B1og</title>
+    <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
+/* This file is meant as a standalone workflow for
+- testing support for link[rel=preload]
+- enabling async CSS loading in browsers that do not support rel=preload
+- applying rel preload css once loaded, whether supported or not.
+*/ -->
+<script>
+    (function (w) {
+        'use strict'
+        // rel=preload support test
+        if (!w.loadCSS) {
+            w.loadCSS = function () {}
+        }
+        // define on the loadCSS obj
+        var rp = (loadCSS.relpreload = {})
+        // rel=preload feature support test
+        // runs once and returns a function for compat purposes
+        rp.support = (function () {
+            var ret
+            try {
+                ret = w.document.createElement('link').relList.supports('preload')
+            } catch (e) {
+                ret = false
+            }
+            return function () {
+                return ret
+            }
+        })()
+
+        // if preload isn't supported, get an asynchronous load by using a non-matching media attribute
+        // then change that media back to its intended value on load
+        rp.bindMediaToggle = function (link) {
+            // remember existing media attr for ultimate state, or default to 'all'
+            var finalMedia = link.media || 'all'
+
+            function enableStylesheet() {
+                link.media = finalMedia
+            }
+
+            // bind load handlers to enable media
+            if (link.addEventListener) {
+                link.addEventListener('load', enableStylesheet)
+            } else if (link.attachEvent) {
+                link.attachEvent('onload', enableStylesheet)
+            }
+
+            // Set rel and non-applicable media type to start an async request
+            // note: timeout allows this to happen async to let rendering continue in IE
+            setTimeout(function () {
+                link.rel = 'stylesheet'
+                link.media = 'only x'
+            })
+            // also enable media after 3 seconds,
+            // which will catch very old browsers (android 2.x, old firefox) that don't support onload on link
+            setTimeout(enableStylesheet, 3000)
+        }
+
+        // loop through link elements in DOM
+        rp.poly = function () {
+            // double check this to prevent external calls from running
+            if (rp.support()) {
+                return
+            }
+            var links = w.document.getElementsByTagName('link')
+            for (var i = 0; i < links.length; i++) {
+                var link = links[i]
+                // qualify links to those with rel=preload and as=style attrs
+                if (
+                    link.rel === 'preload' &&
+                    link.getAttribute('as') === 'style' &&
+                    !link.getAttribute('data-loadcss')
+                ) {
+                    // prevent rerunning on link
+                    link.setAttribute('data-loadcss', true)
+                    // bind listeners to toggle media back
+                    rp.bindMediaToggle(link)
+                }
+            }
+        }
+
+        // if unsupported, run the polyfill
+        if (!rp.support()) {
+            // run once at least
+            rp.poly()
+
+            // rerun poly on an interval until onload
+            var run = w.setInterval(rp.poly, 500)
+            if (w.addEventListener) {
+                w.addEventListener('load', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            } else if (w.attachEvent) {
+                w.attachEvent('onload', function () {
+                    rp.poly()
+                    w.clearInterval(run)
+                })
+            }
+        }
+
+        // commonjs
+        if (typeof exports !== 'undefined') {
+            exports.loadCSS = loadCSS
+        } else {
+            w.loadCSS = loadCSS
+        }
+    })(typeof global !== 'undefined' ? global : this)
+</script>
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'Oswald-Regular';
+        src: url("/font/Oswald-Regular.ttf");
+    }
+
+    body {
+        margin: 0;
+    }
+
+    header,
+    footer,
+    .back-top,
+    .sidebar,
+    .container,
+    .site-intro-meta,
+    .toc-wrapper {
+        display: none;
+    }
+
+    .site-intro {
+        position: relative;
+        z-index: 3;
+        width: 100%;
+        /* height: 50vh; */
+        overflow: hidden;
+    }
+
+    .site-intro-placeholder {
+        position: absolute;
+        z-index: -2;
+        top: 0;
+        left: 0;
+        width: calc(100% + 300px);
+        height: 100%;
+        background: repeating-linear-gradient(-45deg, #444 0, #444 80px, #333 80px, #333 160px);
+        background-position: center center;
+        transform: translate3d(-226px, 0, 0);
+        animation: gradient-move 2.5s ease-out 0s infinite;
+    }
+
+    @keyframes gradient-move {
+        0% {
+            transform: translate3d(-226px, 0, 0);
+        }
+        100% {
+            transform: translate3d(0, 0, 0);
+        }
+    }
+</style>
+
+    <link rel="preload" href="/css/style.css?v=20211217" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/dark.css?v=20211217" as="style">
+    <link rel="stylesheet" href="/css/dark.css">
+    <link rel="stylesheet" href="/css/mobile.css?v=20211217" media="(max-width: 960px)">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js?v=20211217" as="script">
+    <link rel="preload" href="/scripts/dark.js?v=20211217" as="script">
+    <link rel="preload" href="/font/Oswald-Regular.ttf" as="font" crossorigin>
+    <link rel="preload" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" as="font" crossorigin>
+    <!-- algolia -->
+    
+    <!-- 百度统计  -->
+    
+    <!-- Google tag (gtag.js) -->
+    
+
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Straw" type="application/atom+xml">
+</head>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        if (typeof window.$ == undefined) {
+            console.warn('jquery load from jsdelivr failed, will load local script')
+            document.write('<script src="/lib/jquery.min.js" />')
+        }
+    </script>
+    
+        <body class="post-body">
+    
+        <!-- header -->
+        <header class="header header-mobile">
+    <!-- top read progress line -->
+    <div class="header-element">
+        <div class="read-progress"></div>
+    </div>
+    <!-- sidebar menu button -->
+    <div class="header-element">
+        
+            <div class="header-sidebar-menu">
+        
+            
+                <div style="padding-left: 1px;">&#xe775;</div>
+            
+        </div>
+    </div>
+    <!-- header actions -->
+    <div class="header-actions">
+        <!-- theme mode switch button -->
+        <span class="header-theme-btn header-element">
+            <i class="fas fa-adjust"></i>
+        </span>
+        <!-- back to home page text -->
+        <span class="home-link header-element">
+            <a href=/>Straw's B1og.</a>
+        </span>
+    </div>
+    <!-- toggle banner for post layout -->
+    
+        
+            <div class="banner">
+        
+            <div class="blog-title header-element">
+                <a href="/">Straw&#39;s B1og.</a>
+            </div>
+            <div class="post-title header-element">
+                <a href="#" class="post-name">ios学习篇(3)-ios常见加密</a>
+            </div>
+        </div>
+    
+</header>
+
+        <!-- fixed footer -->
+        <footer class="footer-fixed">
+    <!-- back to top button -->
+    <div class="footer-fixed-element">
+        
+            <div class="back-top back-top-hidden">
+        
+        
+            <div>&#xe639;</div>
+        
+        </div>
+    </div>
+</footer>
+
+        <!-- wrapper -->
+        <div class="wrapper">
+            <div class="site-intro" style="
+
+
+
+
+
+
+
+    height:50vh;
+
+">
+    
+    <!-- 主页  -->
+    
+        
+    <!-- 404页  -->
+    
+    <div class="site-intro-placeholder"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/post-bg.png)"></div>
+    <div class="site-intro-meta">
+        <!-- 标题  -->
+        <h1 class="intro-title">
+            <!-- 主页  -->
+            
+                ios学习篇(3)-ios常见加密
+            <!-- 404 -->
+            
+        </h1>
+        <!-- 副标题 -->
+        <p class="intro-subtitle">
+            <!-- 主页副标题  -->
+            
+                
+            <!-- 404 -->
+            
+        </p>
+        <!-- 文章页 meta -->
+        
+            <div class="post-intros">
+                <!-- 文章页标签  -->
+                
+                    <div class= post-intro-tags >
+    
+    
+</div>
+
+                
+                <!-- 文章字数统计 -->
+                
+                    <div class="post-intro-read">
+                        <span>字数统计: <span class="post-count word-count">1.5k</span>阅读时长: <span class="post-count reading-time">7 min</span></span>
+                    </div>
+                
+                <div class="post-intro-meta">
+                    <!-- 撰写日期 -->
+                    <span class="iconfont-archer post-intro-calander">&#xe676;</span>
+                    <span class="post-intro-time">2024/07/04</span>
+                    <!-- busuanzi -->
+                    
+                        <span id="busuanzi_container_page_pv" class="busuanzi-pv">
+                            <span class="iconfont-archer post-intro-busuanzi">&#xe602;</span>
+                            <span id="busuanzi_value_page_pv"></span>
+                        </span>
+                    
+                    <!-- 文章分享 -->
+                    <span class="share-wrapper">
+                        <span class="iconfont-archer share-icon">&#xe71d;</span>
+                        <span class="share-text">Share</span>
+                        <ul class="share-list">
+                            <li class="iconfont-archer share-qr" data-type="qr">&#xe75b;
+                                <div class="share-qrcode"></div>
+                            </li>
+                            <li class="iconfont-archer" data-type="weibo">&#xe619;</li>
+                            <li class="iconfont-archer" data-type="qzone">&#xe62e;</li>
+                            <li class="iconfont-archer" data-type="twitter">&#xe634;</li>
+                            <li class="iconfont-archer" data-type="facebook">&#xe67a;</li>
+                        </ul>
+                    </span>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+            <script>
+  // get user agent
+  function getBrowserVersions() {
+    var u = window.navigator.userAgent
+    return {
+      userAgent: u,
+      trident: u.indexOf('Trident') > -1, //IE内核
+      presto: u.indexOf('Presto') > -1, //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/), //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器
+      iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器
+      iPad: u.indexOf('iPad') > -1, //是否为iPad
+      webApp: u.indexOf('Safari') == -1, //是否为web应用程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') == -1, //是否为微信浏览器
+      uc: u.indexOf('UCBrowser') > -1, //是否为android下的UC浏览器
+    }
+  }
+  var browser = {
+    versions: getBrowserVersions(),
+  }
+  console.log('userAgent: ' + browser.versions.userAgent)
+
+  // callback
+  function fontLoaded() {
+    console.log('font loaded')
+    if (document.getElementsByClassName('site-intro-meta')) {
+      document
+        .getElementsByClassName('intro-title')[0]
+        .classList.add('intro-fade-in')
+      document
+        .getElementsByClassName('intro-subtitle')[0]
+        .classList.add('intro-fade-in')
+      var postIntros = document.getElementsByClassName('post-intros')[0]
+      if (postIntros) {
+        postIntros.classList.add('post-fade-in')
+      }
+    }
+  }
+
+  // UC不支持跨域，所以直接显示
+  function asyncCb() {
+    if (browser.versions.uc) {
+      console.log('UCBrowser')
+      fontLoaded()
+    } else {
+      WebFont.load({
+        custom: {
+          families: ['Oswald-Regular'],
+        },
+        loading: function () {
+          // 所有字体开始加载
+          // console.log('font loading');
+        },
+        active: function () {
+          // 所有字体已渲染
+          fontLoaded()
+        },
+        inactive: function () {
+          // 字体预加载失败，无效字体或浏览器不支持加载
+          console.log('inactive: timeout')
+          fontLoaded()
+        },
+        timeout: 5000, // Set the timeout to two seconds
+      })
+    }
+  }
+
+  function asyncErr() {
+    console.warn('script load from CDN failed, will load local script')
+  }
+
+  // load webfont-loader async, and add callback function
+  function async(u, cb, err) {
+    var d = document,
+      t = 'script',
+      o = d.createElement(t),
+      s = d.getElementsByTagName(t)[0]
+    o.src = u
+    if (cb) {
+      o.addEventListener(
+        'load',
+        function (e) {
+          cb(null, e)
+        },
+        false
+      )
+    }
+    if (err) {
+      o.addEventListener(
+        'error',
+        function (e) {
+          err(null, e)
+        },
+        false
+      )
+    }
+    s.parentNode.insertBefore(o, s)
+  }
+
+  var asyncLoadWithFallBack = function (arr, success, reject) {
+    var currReject = function () {
+      reject()
+      arr.shift()
+      if (arr.length) async(arr[0], success, currReject)
+    }
+
+    async(arr[0], success, currReject)
+  }
+
+  asyncLoadWithFallBack(
+    [
+      'https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js',
+      'https://cdn.bootcss.com/webfont/1.6.28/webfontloader.js',
+      "/lib/webfontloader.min.js",
+    ],
+    asyncCb,
+    asyncErr
+  )
+</script>
+
+            <img class="loading" src="/assets/loading.svg" style="display: block; margin: 6rem auto 0 auto; width: 6rem; height: 6rem;" />
+            <div class="container container-unloaded">
+                <main class="main post-page">
+    <article class="article-entry">
+        <h1 id="ios常见加密"><a href="#ios常见加密" class="headerlink" title="ios常见加密"></a>ios常见加密</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>​		在学习篇(1)中有提及过CCCrypt，最近在学习登录加密算法的时候发现ios的加密大部分都是调用函数库的，现在来总结一下现在遇到的比较多见的加密。</p>
+<h2 id="CC-MD5"><a href="#CC-MD5" class="headerlink" title="CC_MD5"></a>CC_MD5</h2><p>​		最简单也是最常用的</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">NSString</span> *)stringWithMD5&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> *cStr = [<span class="keyword">self</span> UTF8String];</span><br><span class="line">    <span class="type">unsigned</span> <span class="type">char</span> digest[CC_MD5_DIGEST_LENGTH];</span><br><span class="line">    CC_MD5( cStr, strlen(cStr), digest ); <span class="comment">// This is the md5 call</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableString</span> *output = [<span class="built_in">NSMutableString</span> stringWithCapacity:CC_MD5_DIGEST_LENGTH * <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; CC_MD5_DIGEST_LENGTH; i++)</span><br><span class="line">        [output appendFormat:<span class="string">@&quot;%02x&quot;</span>, digest[i]];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>  output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="CC-SHA1…"><a href="#CC-SHA1…" class="headerlink" title="CC_SHA1…"></a>CC_SHA1…</h2><p>​		与MD5一样也比较多见</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="built_in">NSString</span> *)stringWithSha1Encode&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="type">char</span> *cstr = [<span class="keyword">self</span> cStringUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSData</span> *data = [<span class="built_in">NSData</span> dataWithBytes:cstr length:<span class="keyword">self</span>.length];</span><br><span class="line">    <span class="comment">//使用对应的CC_SHA1,CC_SHA256,CC_SHA384,CC_SHA512的长度分别是20,32,48,64</span></span><br><span class="line">    uint8_t digest[CC_SHA1_DIGEST_LENGTH];</span><br><span class="line">    <span class="comment">//使用对应的CC_SHA256,CC_SHA384,CC_SHA512</span></span><br><span class="line">    CC_SHA1(data.bytes, (CC_LONG)data.length, digest);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSMutableString</span>* output = [<span class="built_in">NSMutableString</span> stringWithCapacity:CC_SHA1_DIGEST_LENGTH * <span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; CC_SHA1_DIGEST_LENGTH; i++)</span><br><span class="line">        [output appendFormat:<span class="string">@&quot;%02x&quot;</span>, digest[i]];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​		两个加密所用到的参数也只有三个，原文，原文长度，密文，非常的好认</p>
+<h2 id="CCCrypt"><a href="#CCCrypt" class="headerlink" title="CCCrypt"></a>CCCrypt</h2><p>​		这个就比较难了，包含了许多分组对称加密</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CCCryptorStatus CCCrypt(</span><br><span class="line">    CCOperation op,         <span class="comment">/* kCCEncrypt, etc. */</span></span><br><span class="line">    CCAlgorithm alg,        <span class="comment">/* kCCAlgorithmAES128, etc. */</span></span><br><span class="line">    CCOptions options,      <span class="comment">/* kCCOptionPKCS7Padding, etc. */</span></span><br><span class="line">    <span class="keyword">const</span> <span class="type">void</span> *key,</span><br><span class="line">    size_t keyLength,</span><br><span class="line">    <span class="keyword">const</span> <span class="type">void</span> *iv,         <span class="comment">/* optional initialization vector */</span></span><br><span class="line">    <span class="keyword">const</span> <span class="type">void</span> *dataIn,     <span class="comment">/* optional per op and alg */</span></span><br><span class="line">    size_t dataInLength,</span><br><span class="line">    <span class="type">void</span> *dataOut,          <span class="comment">/* data RETURNED here */</span></span><br><span class="line">    size_t dataOutAvailable,</span><br><span class="line">    size_t *dataOutMoved)</span><br></pre></td></tr></table></figure>
+
+<h3 id="CCOperation-op"><a href="#CCOperation-op" class="headerlink" title="CCOperation op"></a>CCOperation op</h3><p>​		很简单，加密kCCEncrypt，解密kCCDecrypt</p>
+<h3 id="CCAlgorithm-alg"><a href="#CCAlgorithm-alg" class="headerlink" title="CCAlgorithm alg"></a>CCAlgorithm alg</h3><p>​		选择加密算法</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> &#123;</span><br><span class="line">    kCCAlgorithmAES128 = <span class="number">0</span>,</span><br><span class="line">    kCCAlgorithmAES = <span class="number">0</span>,</span><br><span class="line">    kCCAlgorithmDES,</span><br><span class="line">    kCCAlgorithm3DES,       </span><br><span class="line">    kCCAlgorithmCAST,       </span><br><span class="line">    kCCAlgorithmRC4,</span><br><span class="line">    kCCAlgorithmRC2,   </span><br><span class="line">    kCCAlgorithmBlowfish    </span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> uint32_t CCAlgorithm;</span><br></pre></td></tr></table></figure>
+
+<h3 id="CCOptions-options"><a href="#CCOptions-options" class="headerlink" title="CCOptions options"></a>CCOptions options</h3><p>​		选择是否填充，默认是CBC模式</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> &#123;</span><br><span class="line">    <span class="comment">/* options for block ciphers */</span></span><br><span class="line">    kCCOptionPKCS7Padding   = <span class="number">0x0001</span>,</span><br><span class="line">    kCCOptionECBMode        = <span class="number">0x0002</span></span><br><span class="line">    <span class="comment">/* stream ciphers currently have no options */</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">typedef</span> uint32_t CCOptions;</span><br></pre></td></tr></table></figure>
+
+<h3 id="const-void-key"><a href="#const-void-key" class="headerlink" title="const void *key"></a>const void *key</h3><p>​		传入的密钥，经过从cstring utf8转成字节类型</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> keyPtr[kCCKeySizeAES256 + <span class="number">1</span>];<span class="comment">//选择aes256加密，所以key长度应该是kCCKeySizeAES256，32位</span></span><br><span class="line">bzero(keyPtr, <span class="keyword">sizeof</span>(keyPtr));<span class="comment">//清零</span></span><br><span class="line">[key getCString:keyPtr maxLength:<span class="keyword">sizeof</span>(keyPtr) encoding:<span class="built_in">NSUTF8StringEncoding</span>];<span class="comment">//秘钥key转成cString</span></span><br></pre></td></tr></table></figure>
+
+<p>​		需要注意的是如果这里申请的空间不够，加解密会出现问题的，传入的密钥过长，会自动截取，密钥长度不够，自动补全</p>
+<h3 id="size-t-keyLength"><a href="#size-t-keyLength" class="headerlink" title="size_t keyLength"></a>size_t keyLength</h3><p>​		这里是真正决定密钥长度的地方，可选列表是下面这些</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> &#123;</span><br><span class="line">    kCCKeySizeAES128          = <span class="number">16</span>,</span><br><span class="line">    kCCKeySizeAES192          = <span class="number">24</span>,</span><br><span class="line">    kCCKeySizeAES256          = <span class="number">32</span>,</span><br><span class="line">    kCCKeySizeDES             = <span class="number">8</span>,</span><br><span class="line">    kCCKeySize3DES            = <span class="number">24</span>,</span><br><span class="line">    kCCKeySizeMinCAST         = <span class="number">5</span>,</span><br><span class="line">    kCCKeySizeMaxCAST         = <span class="number">16</span>,</span><br><span class="line">    kCCKeySizeMinRC4          = <span class="number">1</span>,</span><br><span class="line">    kCCKeySizeMaxRC4          = <span class="number">512</span>,</span><br><span class="line">    kCCKeySizeMinRC2          = <span class="number">1</span>,</span><br><span class="line">    kCCKeySizeMaxRC2          = <span class="number">128</span>,</span><br><span class="line">    kCCKeySizeMinBlowfish     = <span class="number">8</span>,</span><br><span class="line">    kCCKeySizeMaxBlowfish     = <span class="number">56</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="const-void-iv"><a href="#const-void-iv" class="headerlink" title="const void *iv"></a>const void *iv</h3><p>​		偏移</p>
+<h3 id="const-void-dataIn-size-t-dataInLength"><a href="#const-void-dataIn-size-t-dataInLength" class="headerlink" title="const void *dataIn,size_t dataInLength"></a>const void *dataIn,size_t dataInLength</h3><p>​		明文和明文长度</p>
+<h3 id="void-dataOut-size-t-dataOutAvailable-size-t-dataOutMoved"><a href="#void-dataOut-size-t-dataOutAvailable-size-t-dataOutMoved" class="headerlink" title="void *dataOut,size_t dataOutAvailable,size_t *dataOutMoved"></a>void *dataOut,size_t dataOutAvailable,size_t *dataOutMoved</h3><p>​		密文，密文块，被写入密文的密文块长度</p>
+<h2 id="SecKeyEncrypt"><a href="#SecKeyEncrypt" class="headerlink" title="SecKeyEncrypt"></a>SecKeyEncrypt</h2><p>​		用在RSA加密中会比较多</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SecKeyEncrypt(key, kSecPaddingPKCS1,(<span class="keyword">const</span> uint8_t *)[buffer bytes],[buffer length],cipherBuffer,&amp;cipherBufferSize);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>​		主要了解了加密函数，以及对应的参数，我们就可以使用frida-trace去跟踪app登录时的调用函数，使用修改frida的handlers脚本，来获取明文密文，来分析加密过程。</p>
+<h2 id="例子-喜某某雅的登录加密算法"><a href="#例子-喜某某雅的登录加密算法" class="headerlink" title="例子-喜某某雅的登录加密算法"></a>例子-喜某某雅的登录加密算法</h2><p>​		首先我们使用Charles对手机进行代理抓包，抓取登录时的发包与响应</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/%E6%8A%93%E5%8C%85.png" alt="抓包"></p>
+<p>​		然后我们尝试使用修改追踪脚本的方式，查找我们的输入</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Auto-generated by Frida. Please modify to match the signature of SecKeyEncrypt.</span></span><br><span class="line"><span class="comment"> * This stub is currently auto-generated from manpages when available.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * For full API reference, see: https://frida.re/docs/javascript-api/</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Called synchronously when about to call SecKeyEncrypt.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@this</span> &#123;<span class="type">object</span>&#125; - Object allowing you to store state for use in onLeave.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">function</span>&#125; <span class="variable">log</span> - Call this function with a string to be presented to the user.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">array</span>&#125; <span class="variable">args</span> - Function arguments represented as an array of NativePointer objects.</span></span><br><span class="line"><span class="comment">   * For example use args[0].readUtf8String() if the first argument is a pointer to a C string encoded as UTF-8.</span></span><br><span class="line"><span class="comment">   * It is also possible to modify arguments by assigning a NativePointer object to an element of this array.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; <span class="variable">state</span> - Object allowing you to keep state across function calls.</span></span><br><span class="line"><span class="comment">   * Only one JavaScript function will execute at a time, so do not worry about race-conditions.</span></span><br><span class="line"><span class="comment">   * However, do not use this to store function arguments across onEnter/onLeave, but instead</span></span><br><span class="line"><span class="comment">   * use &quot;this&quot; which is an object for keeping state local to an invocation.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="title function_">onEnter</span>(<span class="params">log, args, state</span>) &#123;</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt()&#x27;</span>);</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt() key:&#x27;</span> + <span class="title function_">hexdump</span>(args[<span class="number">0</span>]));</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt() padding:&#x27;</span> + (args[<span class="number">1</span>]).<span class="title function_">toInt32</span>());</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt() plainText:&#x27;</span> + (args[<span class="number">2</span>]).<span class="title function_">readCString</span>());</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt() plainTextSize:&#x27;</span> + (args[<span class="number">3</span>]).<span class="title function_">toInt32</span>());</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">args4</span>=args[<span class="number">4</span>];</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">args5</span>=args[<span class="number">5</span>];</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Called synchronously when about to return from SecKeyEncrypt.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * See onEnter for details.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@this</span> &#123;<span class="type">object</span>&#125; - Object allowing you to access state stored in onEnter.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">function</span>&#125; <span class="variable">log</span> - Call this function with a string to be presented to the user.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">NativePointer</span>&#125; <span class="variable">retval</span> - Return value represented as a NativePointer object.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; <span class="variable">state</span> - Object allowing you to keep state across function calls.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="title function_">onLeave</span>(<span class="params">log, retval, state</span>) &#123;</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt() cipherText:&#x27;</span>+<span class="title function_">hexdump</span>(<span class="variable language_">this</span>.<span class="property">args4</span>));</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;SecKeyEncrypt() cipherTextSize:&#x27;</span>+(<span class="variable language_">this</span>.<span class="property">args5</span>).<span class="title function_">readInt</span>());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Auto-generated by Frida. Please modify to match the signature of CC_SHA1.</span></span><br><span class="line"><span class="comment"> * This stub is currently auto-generated from manpages when available.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * For full API reference, see: https://frida.re/docs/javascript-api/</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Called synchronously when about to call CC_SHA1.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@this</span> &#123;<span class="type">object</span>&#125; - Object allowing you to store state for use in onLeave.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">function</span>&#125; <span class="variable">log</span> - Call this function with a string to be presented to the user.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">array</span>&#125; <span class="variable">args</span> - Function arguments represented as an array of NativePointer objects.</span></span><br><span class="line"><span class="comment">   * For example use args[0].readUtf8String() if the first argument is a pointer to a C string encoded as UTF-8.</span></span><br><span class="line"><span class="comment">   * It is also possible to modify arguments by assigning a NativePointer object to an element of this array.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; <span class="variable">state</span> - Object allowing you to keep state across function calls.</span></span><br><span class="line"><span class="comment">   * Only one JavaScript function will execute at a time, so do not worry about race-conditions.</span></span><br><span class="line"><span class="comment">   * However, do not use this to store function arguments across onEnter/onLeave, but instead</span></span><br><span class="line"><span class="comment">   * use &quot;this&quot; which is an object for keeping state local to an invocation.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="title function_">onEnter</span>(<span class="params">log, args, state</span>) &#123;</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;CC_SHA1() onEnter:&#x27;</span> + args[<span class="number">0</span>].<span class="title function_">readCString</span>(args[<span class="number">1</span>].<span class="title function_">toInt32</span>()));</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">args2</span> =args[<span class="number">2</span>];</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Called synchronously when about to return from CC_SHA1.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * See onEnter for details.</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@this</span> &#123;<span class="type">object</span>&#125; - Object allowing you to access state stored in onEnter.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">function</span>&#125; <span class="variable">log</span> - Call this function with a string to be presented to the user.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">NativePointer</span>&#125; <span class="variable">retval</span> - Return value represented as a NativePointer object.</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">object</span>&#125; <span class="variable">state</span> - Object allowing you to keep state across function calls.</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  <span class="title function_">onLeave</span>(<span class="params">log, retval, state</span>) &#123;</span><br><span class="line">    <span class="title function_">log</span>(<span class="string">&#x27;CC_SHA1() onLeave:&#x27;</span> + <span class="title function_">hexdump</span>(<span class="variable language_">this</span>.<span class="property">args2</span>,&#123;<span class="attr">length</span>:<span class="number">20</span>&#125;));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>利用frida-trace -U -i CCCrypt -i CC_MD5 -i  CC_SHA1 -i SecKeyEncrypt -f com.gemd.iting跟踪，登录账号</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/%E9%AA%8C%E8%AF%81.png" alt="验证"></p>
+<p>我们可以轻松看出我们输入的账号（手机号）与密码数据先进行了一次RSA加密，然后再进行了一次SHA1加密，</p>
+<p>然后发现SHA1的明文是好多进行了RSA加密后的数据，包括账号密码，SHA1的返回值就是我们的signature签名，而RSA加密的数据以base64的方式显示出来</p>
+<p><img src="/../img/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/base64.png" alt="base64"></p>
+<p>（该图为前一次发包，数据不一样，只提供加密逻辑）</p>
+<p>至此我们只要获取RSA的密钥即可破解登录检验的加密算法</p>
+<p><img src="/../img/%E5%B7%B2%E8%80%81%E5%AE%9E.jpg" alt="已老实"></p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/93466b31f675">https://www.jianshu.com/p/93466b31f675</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/francisblogs/p/7447330.html">iOS常用加密之RSA加密解密 - Francis01 - 博客园 (cnblogs.com)</a></p>
+
+    </article>
+    <!-- license -->
+    
+        <div class="license-wrapper">
+            <p>原文作者：<a href="https://straw-233.github.io">Straw</a>
+            <p>原文链接：<a href="https://straw-233.github.io/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/">https://straw-233.github.io/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/</a>
+            <p>发表日期：<a href="https://straw-233.github.io/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/">July 4th 2024, 9:34:00 pm</a>
+            <p>更新日期：<a href="https://straw-233.github.io/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/">July 4th 2024, 11:07:02 pm</a>
+            <p>版权声明：本文采用<a rel="license noopener" target="_blank" href="http://creativecommons.org/licenses/by-nc/4.0/">知识共享署名-非商业性使用 4.0 国际许可协议</a>进行许可</p>
+        </div>
+    
+    <!-- paginator -->
+    <ul class="post-paginator">
+        <li class="next">
+            
+        </li>
+        <li class="previous">
+            
+                <div class="prevSlogan">Previous Post</div>
+                <a href="/2024/06/30/maimaidx%E5%AF%BC%E5%88%86%E6%9F%A5%E5%88%86%E5%99%A8%E7%A0%94%E7%A9%B6/" title="maimaidx导分查分器研究">
+                    <div class="prevTitle">maimaidx导分查分器研究</div>
+                </a>
+            
+        </li>
+    </ul>
+    <!-- comment -->
+    
+        <div class="post-comment">
+            <!-- 来必力 City 版安装代码 -->
+
+
+            
+
+            
+
+            
+
+            <!-- utteranc评论 -->
+
+
+            <!-- partial('_partial/comment/changyan') -->
+            <!--PC版-->
+
+
+            
+            
+
+            
+
+        </div>
+    
+    <!-- timeliness note -->
+    <!-- idea from: https://hexo.fluid-dev.com/posts/hexo-injector/#%E6%96%87%E7%AB%A0%E6%97%B6%E6%95%88%E6%80%A7%E6%8F%90%E7%A4%BA -->
+    
+    <!-- Mathjax -->
+    
+</main>
+
+                <!-- profile -->
+                
+            </div>
+            <footer class="footer footer-unloaded">
+    <!-- social  -->
+    
+        <div class="social">
+            
+    
+        
+            
+                <a href="mailto:572368426@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Straw-233" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/wechat.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    <!-- powered by Hexo  -->
+    <div class="copyright">
+        <span id="hexo-power">Powered by <a href="https://hexo.io/" target="_blank">Hexo</a></span><span class="iconfont-archer power">&#xe635;</span><span id="theme-info">theme <a href="https://github.com/fi3ework/hexo-theme-archer" target="_blank">Archer</a></span>
+    </div>
+    <!-- website approve for Chinese user -->
+    
+    <!-- 不蒜子  -->
+    
+        <div class="busuanzi-container">
+            
+             
+                <span id="busuanzi_container_site_pv">PV: <span id="busuanzi_value_site_pv"></span> :)</span>
+            
+        </div>
+    	
+</footer>
+
+        </div>
+        <!-- toc -->
+        
+            <div class="toc-wrapper toc-wrapper-loding" style=
+
+
+
+
+
+
+
+    top:50vh;
+
+>
+                <div class="toc-catalog">
+                    <span class="iconfont-archer catalog-icon">&#xe613;</span><span>CATALOG</span>
+                </div>
+                <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86"><span class="toc-number">1.</span> <span class="toc-text">ios常见加密</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CC-MD5"><span class="toc-number">1.2.</span> <span class="toc-text">CC_MD5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CC-SHA1%E2%80%A6"><span class="toc-number">1.3.</span> <span class="toc-text">CC_SHA1…</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CCCrypt"><span class="toc-number">1.4.</span> <span class="toc-text">CCCrypt</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CCOperation-op"><span class="toc-number">1.4.1.</span> <span class="toc-text">CCOperation op</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CCAlgorithm-alg"><span class="toc-number">1.4.2.</span> <span class="toc-text">CCAlgorithm alg</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CCOptions-options"><span class="toc-number">1.4.3.</span> <span class="toc-text">CCOptions options</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#const-void-key"><span class="toc-number">1.4.4.</span> <span class="toc-text">const void *key</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#size-t-keyLength"><span class="toc-number">1.4.5.</span> <span class="toc-text">size_t keyLength</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#const-void-iv"><span class="toc-number">1.4.6.</span> <span class="toc-text">const void *iv</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#const-void-dataIn-size-t-dataInLength"><span class="toc-number">1.4.7.</span> <span class="toc-text">const void *dataIn,size_t dataInLength</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#void-dataOut-size-t-dataOutAvailable-size-t-dataOutMoved"><span class="toc-number">1.4.8.</span> <span class="toc-text">void *dataOut,size_t dataOutAvailable,size_t *dataOutMoved</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SecKeyEncrypt"><span class="toc-number">1.5.</span> <span class="toc-text">SecKeyEncrypt</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.6.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%8B%E5%AD%90-%E5%96%9C%E6%9F%90%E6%9F%90%E9%9B%85%E7%9A%84%E7%99%BB%E5%BD%95%E5%8A%A0%E5%AF%86%E7%AE%97%E6%B3%95"><span class="toc-number">1.7.</span> <span class="toc-text">例子-喜某某雅的登录加密算法</span></a></li></ol></li></ol>
+            </div>
+        
+        <!-- sidebar -->
+        <div class="sidebar sidebar-hide">
+    <ul class="sidebar-tabs sidebar-tabs-active-0">
+        <li class="sidebar-tab-archives"><span class="iconfont-archer">&#xe67d;</span><span class="tab-name">Archive</span></li>
+        <li class="sidebar-tab-tags"><span class="iconfont-archer">&#xe61b;</span><span class="tab-name">Tag</span></li>
+        <li class="sidebar-tab-categories"><span class="iconfont-archer">&#xe666;</span><span class="tab-name">Cate</span></li>
+    </ul>
+    <div class="sidebar-content sidebar-content-show-archive">
+        <div class="sidebar-panel-archives">
+    <!-- 在 ejs 中将 archive 按照时间排序 -->
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    
+    
+    
+    
+    <div class="total-and-search">
+        <div class="total-archive">
+        Total : 19
+        </div>
+        <!-- search  -->
+        
+    </div>
+    
+    <div class="post-archive">
+    
+        
+            
+            
+            <div class="archive-year"> 2023 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">12/19</span>
+            <a class="archive-post-title" href="/2023/12/19/java%E5%AD%A6%E4%B9%A0%EF%BC%882%EF%BC%89/">java学习（2）</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/07</span>
+            <a class="archive-post-title" href="/2023/11/07/2023%E7%9C%81%E8%B5%9B(%E5%88%9D%E8%B5%9B)Reverse%20%E5%A4%8D%E7%8E%B0/">浙江省2023网络安全信息竞赛(初赛)Reverse 复现</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">11/01</span>
+            <a class="archive-post-title" href="/2023/11/01/tea%E5%8A%A0%E5%AF%86/">Tea类型加密</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">10/29</span>
+            <a class="archive-post-title" href="/2023/10/29/hello-world/">Hello World</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2023/12/07/java%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">java学习（1）</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/02/28/llvm%20IR%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%B8%80/">llvm IR常用指令一</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/02/29/llvm%20IR%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4%E4%BA%8C/">llvm IR常用指令二</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/03/17/OLLVM-%E8%99%9A%E5%81%87%E6%8E%A7%E5%88%B6%E6%B5%81/">OLLVM-虚假控制流</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> 2024 </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">07/04</span>
+            <a class="archive-post-title" href="/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/">ios学习篇(3)-ios常见加密</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span>
+            <a class="archive-post-title" href="/2024/05/27/%E5%88%86%E7%BB%84%E5%8A%A0%E5%AF%86%E6%A8%A1%E5%BC%8F/">分组加密及模式</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">05/27</span>
+            <a class="archive-post-title" href="/2024/05/27/2024%E5%9B%BD%E8%B5%9B%E5%88%9D%E8%B5%9B/">2024CISCN初赛 Reverse复现</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/18</span>
+            <a class="archive-post-title" href="/2024/04/18/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(2)/">ios学习篇(2)</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">04/13</span>
+            <a class="archive-post-title" href="/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/">ios学习篇(1)</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/27</span>
+            <a class="archive-post-title" href="/2024/03/27/%E5%8F%8D%E6%B7%B7%E6%B7%86%E5%AD%A6%E4%B9%A0-fla%E7%AF%87/">反混淆学习-fla控制流平坦化篇</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/18</span>
+            <a class="archive-post-title" href="/2024/03/18/OLLVM-%E6%8C%87%E4%BB%A4%E6%9B%BF%E4%BB%A3/">OLLVM-指令替代</a>
+        </li>
+    
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">03/15</span>
+            <a class="archive-post-title" href="/2024/03/15/OLLVM-%E6%8E%A7%E5%88%B6%E6%B5%81%E5%B9%B3%E5%9D%A6%E5%8C%96/">OLLVM-控制流平坦化</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/03/19/OLLVM-%E9%9A%8F%E6%9C%BA%E6%8E%A7%E5%88%B6%E6%B5%81/">OLLVM-随机控制流</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/03/20/OLLVM-%E5%B8%B8%E9%87%8F%E6%9B%BF%E4%BB%A3/">OLLVM-常量替代</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2024/06/30/maimaidx%E5%AF%BC%E5%88%86%E6%9F%A5%E5%88%86%E5%99%A8%E7%A0%94%E7%A9%B6/">maimaidx导分查分器研究</a>
+        </li>
+    
+    </div>
+</div>
+
+        <div class="sidebar-panel-tags">
+    <div class="sidebar-tags-name">
+        
+    </div>
+    <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
+    <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
+        缺失模块，请参考主题文档进行安装配置：https://github.com/fi3ework/hexo-theme-archer#%E5%AE%89%E8%A3%85%E4%B8%BB%E9%A2%98
+    </div> 
+    <div class="sidebar-tags-list"></div>
+</div>
+
+        <div class="sidebar-panel-categories">
+    <div class="sidebar-categories-name">
+    
+    </div>
+    <div class="iconfont-archer sidebar-categories-empty">&#xe678;</div>
+    <div class="sidebar-categories-list"></div>
+</div>
+
+    </div>
+</div>
+
+        <!-- site-meta -->
+        <script>
+    var siteMetaRoot = "/"
+    if (siteMetaRoot === "undefined") {
+        siteMetaRoot = '/'
+    }
+    var siteMeta = {
+        url: "https://straw-233.github.io",
+        root: siteMetaRoot,
+        author: "Straw"
+    }
+</script>
+
+        <!-- import experimental options here -->
+        <!-- Custom Font -->
+
+
+        <!-- main func -->
+        <script src="/scripts/main.js?v=20211217"></script>
+        <!-- dark mode -->
+        <script src="/scripts/dark.js?v=20211217"></script>
+        <!-- fancybox -->
+        <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" defer></script>
+        <!-- algolia -->
+        
+        <!-- busuanzi -->
+        
+            <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+        
+        <!-- CNZZ -->
+        
+        <!-- async load share.js -->
+        
+            <script src="/scripts/share.js?v=20211217" async></script>
+        
+        <!-- mermaid -->
+        
+    </body>
+</html>
