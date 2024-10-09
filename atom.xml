@@ -6,7 +6,7 @@
   <link href="https://straw-233.github.io/atom.xml" rel="self"/>
   
   <link href="https://straw-233.github.io/"/>
-  <updated>2024-07-18T07:20:39.509Z</updated>
+  <updated>2024-10-09T12:29:28.585Z</updated>
   <id>https://straw-233.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>swift学习（1）</title>
+    <link href="https://straw-233.github.io/2024/10/09/swift%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/"/>
+    <id>https://straw-233.github.io/2024/10/09/swift%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/</id>
+    <published>2024-10-09T12:29:28.255Z</published>
+    <updated>2024-10-09T12:29:28.585Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="swift-re常见的加密解密"><a href="#swift-re常见的加密解密" class="headerlink" title="swift-re常见的加密解密"></a>swift-re常见的加密解密</h1><p>在xcode里用swift写了点加密解密，以后都放着这里了。。</p><h2 id="RC4"><a href="#RC4" class="headerlink" title="RC4"></a>RC4</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">RC4</span> &#123;</span><br><span class="line">    <span class="keyword">var</span> state <span class="operator">=</span> [<span class="type">UInt8</span>](repeating: <span class="number">0</span>, count: <span class="number">256</span>)</span><br><span class="line">    <span class="keyword">init</span>(<span class="params">key</span>: [<span class="type">UInt8</span>]) &#123;</span><br><span class="line">        <span class="keyword">var</span> j:<span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">256</span> &#123;</span><br><span class="line">            state[i] <span class="operator">=</span> <span class="type">UInt8</span>(i)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">256</span> &#123;</span><br><span class="line">            j <span class="operator">=</span> (j <span class="operator">+</span> <span class="type">Int</span>(state[i]) <span class="operator">+</span> <span class="type">Int</span>(key[i <span class="operator">%</span> key.count])) <span class="operator">%</span> <span class="number">256</span></span><br><span class="line">            state.swapAt(i, j)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">func</span> <span class="title function_">encrypt</span>(<span class="params">data</span>: <span class="keyword">inout</span> [<span class="type">UInt8</span>])&#123;</span><br><span class="line">        <span class="keyword">var</span> x: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">var</span> y: <span class="type">Int</span> <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span>data.count &#123;</span><br><span class="line">            x <span class="operator">=</span> (x <span class="operator">+</span> <span class="number">1</span>) <span class="operator">%</span> <span class="number">256</span></span><br><span class="line">            y <span class="operator">=</span> (y <span class="operator">+</span> <span class="type">Int</span>(state[x])) <span class="operator">%</span> <span class="number">256</span></span><br><span class="line">            <span class="keyword">let</span> temp <span class="operator">=</span> state[x]</span><br><span class="line">            state[x]<span class="operator">=</span>state[y]</span><br><span class="line">            state[y]<span class="operator">=</span>temp</span><br><span class="line">            <span class="keyword">let</span> t <span class="operator">=</span> state[(<span class="type">Int</span>(state[x]) <span class="operator">+</span> <span class="type">Int</span>(state[y])) <span class="operator">%</span> <span class="number">256</span>]</span><br><span class="line">            data[i] <span class="operator">=</span> data[i] <span class="operator">^</span> t</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> key: [<span class="type">UInt8</span>] <span class="operator">=</span> <span class="type">Array</span>(<span class="string">&quot;qwq&quot;</span>.utf8)</span><br><span class="line"><span class="keyword">let</span> rc4<span class="operator">=</span><span class="type">RC4</span>(key: key)</span><br><span class="line"><span class="keyword">var</span> text: [<span class="type">UInt8</span>] <span class="operator">=</span> <span class="type">Array</span>(<span class="string">&quot;straw&quot;</span>.utf8)</span><br><span class="line">rc4.encrypt(data: <span class="operator">&amp;</span>text)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span>text.count&#123;</span><br><span class="line">    <span class="keyword">var</span> texthex<span class="operator">=</span><span class="type">String</span>(format: <span class="string">&quot;0x%02x&quot;</span>, text[i])</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;<span class="subst">\(texthex)</span>&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h1 id=&quot;swift-re常见的加密解密&quot;&gt;&lt;a href=&quot;#swift-re常见的加密解密&quot; class=&quot;headerlink&quot; title=&quot;swift-re常见的加密解密&quot;&gt;&lt;/a&gt;swift-re常见的加密解密&lt;/h1&gt;&lt;p&gt;在xcode里用swift写了点加密</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>vm--插曲</title>
@@ -393,26 +413,6 @@
       
       
     <summary type="html">&lt;h1 id=&quot;Tea类型加密&quot;&gt;&lt;a href=&quot;#Tea类型加密&quot; class=&quot;headerlink&quot; title=&quot;Tea类型加密&quot;&gt;&lt;/a&gt;&lt;strong&gt;Tea类型加密&lt;/strong&gt;&lt;/h1&gt;&lt;p&gt;​        很早就想概括tea类型加密了，对于很多刚开始做逆</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="https://straw-233.github.io/2023/10/29/hello-world/"/>
-    <id>https://straw-233.github.io/2023/10/29/hello-world/</id>
-    <published>2023-10-29T11:59:56.012Z</published>
-    <updated>2023-10-29T11:16:03.137Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt; for</summary>
       
     
     

@@ -22,7 +22,7 @@
     <meta name="description" content="Straw_blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Straw">
-<meta property="og:url" content="https://straw-233.github.io/archives/2024/07/index.html">
+<meta property="og:url" content="https://straw-233.github.io/page/3/index.html">
 <meta property="og:site_name" content="Straw">
 <meta property="og:description" content="Straw_blog">
 <meta property="og:locale" content="zh_CN">
@@ -222,8 +222,10 @@
         }
     </script>
     
+        <body class="home-body">
+    
         <!-- header -->
-        <header class="header header-mobile">
+        <header class="header header-mobile index-header">
     <!-- top read progress line -->
     <div class="header-element">
         <div class="read-progress"></div>
@@ -254,7 +256,7 @@
 </header>
 
         <!-- fixed footer -->
-        <footer class="footer-fixed">
+        <footer class="footer-fixed index-footer-fixed">
     <!-- back to top button -->
     <div class="footer-fixed-element">
         
@@ -277,21 +279,34 @@
 
 
 
+    height:50vh;
+
 ">
     
     <!-- 主页  -->
     
+        
+    <!-- 文章页  -->
+    
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/)"></div>
+    <div class="site-intro-img" style="background-image: url(/intro/index-bg.png)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
+                Straw's B1og.
+            <!-- 文章页  -->
+            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
+            
+                
+                    We1come t0 Straw's wor1d 喵~
+                
+            <!-- 文章页  -->
             
         </p>
         <!-- 文章页 meta -->
@@ -433,58 +448,23 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2024/07/17/vm/">
+            <a class="abstract-title" href="/2023/10/29/hello-world/">
                 
-                <span class="abstract-title-text">vm--插曲</span>
+                <span class="abstract-title-text">Hello World</span>
             </a>
             <div class="abstract-content">
-                VM简介一个虚拟机指令集，相当于自己写了个虚拟机，执行自己写的指令，来实现程序的运行，我觉得有点套中套的味道了
-要求分析代码能力，扎实的汇编基础，chatgpt的熟练使用
-例子简单学习一下vm，以WcyVM(nctf2018)为例
+                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
 
-这就是一个经典的vm题目，下面的一堆case就分别代表不同的指令集，上面的v4，v5就代表不同的寄存器，用来存储和操作数据，那么我们首先需要做什么呢？
-opcode
-opcode也就是操作码，用来判断这个程序是根据什么顺序运行的，有些题的opcode是只有操作的，但是有些题的opcode还会有带上参数什么的，这题就是
-寄存器
-操作分析case 0x8
-
-传入...
+More info: Writing
+Run server1$ hexo ...
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/07/18">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/07/17</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/07/04/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(3)-ios%E5%B8%B8%E8%A7%81%E5%8A%A0%E5%AF%86/">
-                
-                <span class="abstract-title-text">ios学习篇(3)-ios常见加密</span>
-            </a>
-            <div class="abstract-content">
-                ios常见加密前言​		在学习篇(1)中有提及过CCCrypt，最近在学习登录加密算法的时候发现ios的加密大部分都是调用函数库的，现在来总结一下现在遇到的比较多见的加密。
-CC_MD5​		最简单也是最常用的
-123456789101112-(NSString *)stringWithMD5&#123;    const char *cStr = [self UTF8String];    unsigned char digest[CC_MD5_DIGEST_LENGTH];    CC_MD5( cStr, strlen(cStr), digest ); // This is the...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/07/04">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/07/04</span>
+                <div class="abstract-date" title="Last updated: 2023/10/29">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/10/29</span>
                 </div>
                 <!-- tags -->
                 
@@ -494,9 +474,161 @@ CC_MD5​		最简单也是最常用的
     
     <!-- paginator  -->
     
+        <nav class="page-nav">
+            <a class="extend prev" rel="prev" href="/page/2/">&lt; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+        </nav>
+    
 </main>
 
                 <!-- profile -->
+                
+                    <div class="profile">
+    <img class="profile-avatar" alt="avatar" src= /avatar/meinasi.png />
+    <div class="profile-name">Straw</div>
+    
+        <div class="profile-signature">
+            ctfer?X Pokémon trainer?✔
+        </div>
+    
+    
+        <div class="profile-social">
+            
+    
+        
+            
+                <a href="mailto:572368426@qq.com" class="iconfont-archer email" title=email ></a>
+            
+        
+    
+        
+            
+                <a href="//github.com/Straw-233" class="iconfont-archer github" target="_blank" title=github></a>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer wechat" title=wechat>
+                    
+                    <img class="profile-qr" src="/assets/wechat.png" />
+                </span>
+            
+        
+    
+        
+            
+                <span class="iconfont-archer qq" title=qq>
+                    
+                    <img class="profile-qr" src="/assets/QQ.png" />
+                </span>
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+
+        </div>
+    
+    
+        <div class="friends">
+            <div>
+                
+                FRIENDS
+            </div>
+            
+                
+                    <span>
+                        <a href="https://enllus1on.github.io/" target="_blank">①enllusion(pwn ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://goodlunatic.github.io/" target="_blank">②Lunatic(misc ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://www.x1aoblog.top/" target="_blank">③x1ao(crypto ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://www.fup1p1.cn" target="_blank">④Fup1p1(re ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://pangbai.work" target="_blank">⑤PangBai(Android ✌)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://asal1n.github.io/" target="_blank">⑥AsaL1n(web 🤡)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://xxcc197.github.io/blog/" target="_blank">⑦void2eye(加里奥)</a>
+                    </span>
+                
+            
+                
+                    <span>
+                        <a href="https://blog.yoimiya.site/" target="_blank">⑧carbofish(all)</a>
+                    </span>
+                
+            
+        </div>
+    
+    
+        <div class="profile-link-item">
+            <a href="/about" class="about-me">
+                
+                ABOUT ME
+            </a>
+        </div>
+    
+    
+    
+</div>
+
                 
             </div>
             <footer class="footer footer-unloaded">
