@@ -22,7 +22,7 @@
     <meta name="description" content="Straw_blog">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Straw">
-<meta property="og:url" content="https://straw-233.github.io/page/3/index.html">
+<meta property="og:url" content="https://straw-233.github.io/archives/2025/index.html">
 <meta property="og:site_name" content="Straw">
 <meta property="og:description" content="Straw_blog">
 <meta property="og:locale" content="zh_CN">
@@ -222,10 +222,8 @@
         }
     </script>
     
-        <body class="home-body">
-    
         <!-- header -->
-        <header class="header header-mobile index-header">
+        <header class="header header-mobile">
     <!-- top read progress line -->
     <div class="header-element">
         <div class="read-progress"></div>
@@ -256,7 +254,7 @@
 </header>
 
         <!-- fixed footer -->
-        <footer class="footer-fixed index-footer-fixed">
+        <footer class="footer-fixed">
     <!-- back to top button -->
     <div class="footer-fixed-element">
         
@@ -279,34 +277,21 @@
 
 
 
-    height:50vh;
-
 ">
     
     <!-- 主页  -->
     
-        
-    <!-- 文章页  -->
-    
     <div class="site-intro-placeholder"></div>
-    <div class="site-intro-img" style="background-image: url(/intro/index-bg.png)"></div>
+    <div class="site-intro-img" style="background-image: url(/)"></div>
     <div class="site-intro-meta">
         <!-- 标题  -->
         <h1 class="intro-title">
             <!-- 主页  -->
             
-                Straw's B1og.
-            <!-- 文章页  -->
-            
         </h1>
         <!-- 副标题 -->
         <p class="intro-subtitle">
             <!-- 主页副标题  -->
-            
-                
-                    We1come t0 Straw's wor1d 喵~
-                
-            <!-- 文章页  -->
             
         </p>
         <!-- 文章页 meta -->
@@ -448,120 +433,34 @@
             
         
         <article class="index-post">
-            <a class="abstract-title" href="/2023/12/07/java%E5%AD%A6%E4%B9%A0%EF%BC%881%EF%BC%89/">
+            <a class="abstract-title" href="/2025/03/12/%E6%95%B0%E7%BE%8E%E6%BB%91%E5%9D%97%E7%99%BB%E5%BD%95%E6%A0%A1%E9%AA%8C/">
                 
-                <span class="abstract-title-text">java学习（1）</span>
+                <span class="abstract-title-text">数美滑块登录校验</span>
             </a>
             <div class="abstract-content">
-                java学习（1）随机数1234567891011121314151617181920import java.util.Random;public class Root1&#123;    public static void main(String[] args) &#123;        int[] arr=&#123;1,2,3,4,5&#125;;        Random r=new Random();        for(int i=0; i&lt; arr.length ;i++)        &#123;            int index=r.nextIn...
+                数美滑块登录校验前言最近在研究各大厂商app的登录算法时，发现很多厂商用的都是数美的登录验证，于是对其展开了逆向研究。
+
+抓包因为这个还在迭代更新，我们以最新的184版本为例子
+智能验证码体验_图片验证码_数美科技
+
+几次发包下来发现会改变的只有tb，tm，ly，rid。于是只要研究这两个就行
+rid可以在发送第一次请求的时候返回，可以直接获取。
+
+通过请求调用发现整个加密逻辑基本上写在了这个js里面
+JS逆向
+进去发现是一个ob混淆过的js，用字符串形式查找相关加密函数，锁定了加密段。
+继续跟进调试发现
+
+继续研究是否有DES魔改，混淆过的DES根本看不出来，想办法去混淆
+
+有一个很好...
             </div>
             <!-- read more -->
             
             <div class="abstract-post-meta">
                 <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/12/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/12/07</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/11/07/2023%E7%9C%81%E8%B5%9B(%E5%88%9D%E8%B5%9B)Reverse%20%E5%A4%8D%E7%8E%B0/">
-                
-                <span class="abstract-title-text">浙江省2023网络安全信息竞赛(初赛)Reverse 复现</span>
-            </a>
-            <div class="abstract-content">
-                浙江省2023网络安全信息竞赛(初赛)Reverse 复现​												我是fw，赛场上纯纯坐牢，只会复现
-
-luare主函数
-
-这里是一段lua的字节码，调试到这一步，提取
-
-学了一手，有个java的unluac.jar反编译脚本，输入
-1java -jar .\unluac.jar lua
-
-
-里面的Oo00Oo0在ida里面
-
-仔细研究一下，是一个查表+异或，关键就在那个ptr的for函数里
-给出脚本
-12345678910111213141516171819202122232425262728293031323334pw=[109,-73,-72,46,-73,-5,...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/11/07">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/11/07</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/11/01/tea%E5%8A%A0%E5%AF%86/">
-                
-                <span class="abstract-title-text">Tea类型加密</span>
-            </a>
-            <div class="abstract-content">
-                Tea类型加密​        很早就想概括tea类型加密了，对于很多刚开始做逆向的新手来说，这个掌握好了解题确实快，不像之前的我找到了key，密文，算法，还是因为小错误，而解不出来。作为最基础，也是最常见的加密，确实需要好好总结一番的喵~!
-
-Tea12345678910111213141516171819202122void encrypt(unsigned int* v, unsigned int* key) &#123;  unsigned int l = v[0], r = v[1], sum = 0, delta = 0x9e3779b9;  for (int i = 0; ...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/10/10">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/11/01</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2023/10/29/hello-world/">
-                
-                <span class="abstract-title-text">Hello World</span>
-            </a>
-            <div class="abstract-content">
-                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post1$ hexo new &quot;My New Post&quot;
-
-More info: Writing
-Run server1$ hexo ...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2023/10/29">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2023/10/29</span>
+                <div class="abstract-date" title="Last updated: 2025/03/20">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2025/03/12</span>
                 </div>
                 <!-- tags -->
                 
@@ -571,161 +470,9 @@ Run server1$ hexo ...
     
     <!-- paginator  -->
     
-        <nav class="page-nav">
-            <a class="extend prev" rel="prev" href="/page/2/">&lt; PREV</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-        </nav>
-    
 </main>
 
                 <!-- profile -->
-                
-                    <div class="profile">
-    <img class="profile-avatar" alt="avatar" src= /avatar/meinasi.png />
-    <div class="profile-name">Straw</div>
-    
-        <div class="profile-signature">
-            ctfer?X Pokémon trainer?✔
-        </div>
-    
-    
-        <div class="profile-social">
-            
-    
-        
-            
-                <a href="mailto:572368426@qq.com" class="iconfont-archer email" title=email ></a>
-            
-        
-    
-        
-            
-                <a href="//github.com/Straw-233" class="iconfont-archer github" target="_blank" title=github></a>
-            
-        
-    
-        
-            
-                <span class="iconfont-archer wechat" title=wechat>
-                    
-                    <img class="profile-qr" src="/assets/wechat.png" />
-                </span>
-            
-        
-    
-        
-            
-                <span class="iconfont-archer qq" title=qq>
-                    
-                    <img class="profile-qr" src="/assets/QQ.png" />
-                </span>
-            
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-        
-    
-
-
-        </div>
-    
-    
-        <div class="friends">
-            <div>
-                
-                FRIENDS
-            </div>
-            
-                
-                    <span>
-                        <a href="https://enllus1on.github.io/" target="_blank">①enllusion(pwn ✌)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://goodlunatic.github.io/" target="_blank">②Lunatic(misc ✌)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://www.x1aoblog.top/" target="_blank">③x1ao(crypto ✌)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://www.fup1p1.cn" target="_blank">④Fup1p1(re ✌)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://pangbai.work" target="_blank">⑤PangBai(Android ✌)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://asal1n.github.io/" target="_blank">⑥AsaL1n(web 🤡)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://xxcc197.github.io/blog/" target="_blank">⑦void2eye(加里奥)</a>
-                    </span>
-                
-            
-                
-                    <span>
-                        <a href="https://blog.yoimiya.site/" target="_blank">⑧carbofish(all)</a>
-                    </span>
-                
-            
-        </div>
-    
-    
-        <div class="profile-link-item">
-            <a href="/about" class="about-me">
-                
-                ABOUT ME
-            </a>
-        </div>
-    
-    
-    
-</div>
-
                 
             </div>
             <footer class="footer footer-unloaded">

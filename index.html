@@ -448,6 +448,48 @@
             
         
         <article class="index-post">
+            <a class="abstract-title" href="/2025/03/12/%E6%95%B0%E7%BE%8E%E6%BB%91%E5%9D%97%E7%99%BB%E5%BD%95%E6%A0%A1%E9%AA%8C/">
+                
+                <span class="abstract-title-text">数美滑块登录校验</span>
+            </a>
+            <div class="abstract-content">
+                数美滑块登录校验前言最近在研究各大厂商app的登录算法时，发现很多厂商用的都是数美的登录验证，于是对其展开了逆向研究。
+
+抓包因为这个还在迭代更新，我们以最新的184版本为例子
+智能验证码体验_图片验证码_数美科技
+
+几次发包下来发现会改变的只有tb，tm，ly，rid。于是只要研究这两个就行
+rid可以在发送第一次请求的时候返回，可以直接获取。
+
+通过请求调用发现整个加密逻辑基本上写在了这个js里面
+JS逆向
+进去发现是一个ob混淆过的js，用字符串形式查找相关加密函数，锁定了加密段。
+继续跟进调试发现
+
+继续研究是否有DES魔改，混淆过的DES根本看不出来，想办法去混淆
+
+有一个很好...
+            </div>
+            <!-- read more -->
+            
+            <div class="abstract-post-meta">
+                <!-- date -->
+                <div class="abstract-date" title="Last updated: 2025/03/20">
+                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2025/03/12</span>
+                </div>
+                <!-- tags -->
+                
+            </div>
+        </article>
+        <div class="index-post-divider"></div>
+    
+        
+        
+        
+        
+            
+        
+        <article class="index-post">
             <a class="abstract-title" href="/2024/11/12/vm-master/">
                 
                 <span class="abstract-title-text">Vm-master</span>
@@ -737,38 +779,6 @@ ipa包签名文件...
                 <!-- date -->
                 <div class="abstract-date" title="Last updated: 2024/04/18">
                     <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/04/18</span>
-                </div>
-                <!-- tags -->
-                
-            </div>
-        </article>
-        <div class="index-post-divider"></div>
-    
-        
-        
-        
-        
-            
-        
-        <article class="index-post">
-            <a class="abstract-title" href="/2024/04/13/ios%E5%AD%A6%E4%B9%A0%E7%AF%87(1)/">
-                
-                <span class="abstract-title-text">ios学习篇(1)</span>
-            </a>
-            <div class="abstract-content">
-                ios学习篇(1)引言​		哎，感觉学安卓太难了，没有用过安卓系统，但是之前有过ios越狱经验，干脆直接学ios逆向好了。学了一个星期，才刚把基础题做出来。为了省钱不买mac，就用windows硬搞，吃尽了苦头啊。。。
-工具&#x2F;设备iphone 7：dopamine(多巴胺)，牛蛙助手，巨魔商店，open-ssh，debugserver
-windows系统：ssh，爱思助手，ida
-无根越狱(仅适配ios17以下版本)看了很多教程，试过了WinRa1n，直接报错差点成为苹果板砖了。感觉还是多巴胺一键最简单
-前置步骤
-​		先去把爱思助手下了，爱思能帮你配好很多环境，还有唯一可见的...
-            </div>
-            <!-- read more -->
-            
-            <div class="abstract-post-meta">
-                <!-- date -->
-                <div class="abstract-date" title="Last updated: 2024/04/13">
-                    <span class="abstract-calander iconfont-archer">&#xe676;</span><span class="abstract-time">2024/04/13</span>
                 </div>
                 <!-- tags -->
                 
@@ -1153,7 +1163,20 @@ windows系统：ssh，爱思助手，ida
         
         
         
+        
+        
+        
+        
+        
     
+        
+        
+        
+        
+        
+        
+        
+        
         
         
         
@@ -1302,7 +1325,7 @@ windows系统：ssh，爱思助手，ida
     
     <div class="total-and-search">
         <div class="total-archive">
-        Total : 23
+        Total : 24
         </div>
         <!-- search  -->
         
@@ -1524,6 +1547,21 @@ windows系统：ssh，爱思助手，ida
         <li class="archive-post-item">
             <span class="archive-post-date">Invalid date</span>
             <a class="archive-post-title" href="/2024/06/30/maimaidx%E5%AF%BC%E5%88%86%E6%9F%A5%E5%88%86%E5%99%A8%E7%A0%94%E7%A9%B6/">maimaidx导分查分器研究</a>
+        </li>
+    
+        
+            
+            
+                
+                </ul>
+            
+            <div class="archive-year"> Invalid date </div>
+            <ul class="year-list">
+            
+        
+        <li class="archive-post-item">
+            <span class="archive-post-date">Invalid date</span>
+            <a class="archive-post-title" href="/2025/03/12/%E6%95%B0%E7%BE%8E%E6%BB%91%E5%9D%97%E7%99%BB%E5%BD%95%E6%A0%A1%E9%AA%8C/">数美滑块登录校验</a>
         </li>
     
     </div>
